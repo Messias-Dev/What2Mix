@@ -1,5 +1,6 @@
 package com.what2mix.model;
 
+import java.util.List;
 import java.util.Objects;
 
 public class User {

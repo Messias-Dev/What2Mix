@@ -1,8 +1,10 @@
-package com.what2mix;
+package com.what2mix.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.what2mix.R;
 
 public class MainActivity extends AppCompatActivity {
 
