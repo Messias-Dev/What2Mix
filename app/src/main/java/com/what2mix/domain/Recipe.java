@@ -6,15 +6,15 @@ import java.util.Objects;
 
 public class Recipe {
 
-    private long recipeId;
-    private String recipeName;
+    private long id;
+    private String name;
     private User owner;
     private LocalDate creationDate;
     private List<Ingredient> ingredients;
 
-    public Recipe(long recipeId, String recipeName, User owner, LocalDate creationDate, List<Ingredient> ingredients) {
-        this.recipeId = recipeId;
-        this.recipeName = recipeName;
+    public Recipe(long id, String name, User owner, LocalDate creationDate, List<Ingredient> ingredients) {
+        this.id = id;
+        this.name = name;
         this.owner = owner;
         this.creationDate = creationDate;
         this.ingredients = ingredients;
@@ -23,20 +23,20 @@ public class Recipe {
     public Recipe() {
     }
 
-    public long getRecipeId() {
-        return recipeId;
+    public long getId() {
+        return id;
     }
 
-    public void setRecipeId(long recipeId) {
-        this.recipeId = recipeId;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getRecipeName() {
-        return recipeName;
+    public String getName() {
+        return name;
     }
 
-    public void setRecipeName(String recipeName) {
-        this.recipeName = recipeName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public User getOwner() {
@@ -68,8 +68,8 @@ public class Recipe {
         if (this == o) return true;
         if (!(o instanceof Recipe)) return false;
         Recipe recipe = (Recipe) o;
-        return getRecipeId() == recipe.getRecipeId() &&
-                Objects.equals(getRecipeName(), recipe.getRecipeName()) &&
+        return getId() == recipe.getId() &&
+                Objects.equals(getName(), recipe.getName()) &&
                 Objects.equals(getOwner(), recipe.getOwner()) &&
                 Objects.equals(getCreationDate(), recipe.getCreationDate()) &&
                 Objects.equals(getIngredients(), recipe.getIngredients());
@@ -77,14 +77,14 @@ public class Recipe {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRecipeId(), getRecipeName(), getOwner(), getCreationDate(), getIngredients());
+        return Objects.hash(getId(), getName(), getOwner(), getCreationDate(), getIngredients());
     }
 
     @Override
     public String toString() {
         return "Recipe{" +
-                "recipeId=" + recipeId +
-                ", recipeName='" + recipeName + '\'' +
+                "recipeId=" + id +
+                ", recipeName='" + name + '\'' +
                 ", owner=" + owner +
                 ", creationDate=" + creationDate +
                 ", ingredients=" + ingredients +

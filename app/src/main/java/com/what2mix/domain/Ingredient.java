@@ -4,31 +4,31 @@ import java.util.Objects;
 
 public class Ingredient {
 
-    private String ingredientName;
-    private long ingredientId;
+    private String name;
+    private long id;
 
-    public Ingredient(String ingredientName, long ingredientId) {
-        this.ingredientName = ingredientName;
-        this.ingredientId = ingredientId;
+    public Ingredient(String name, long ingredientId) {
+        this.name = name;
+        this.id = ingredientId;
     }
 
     public Ingredient() {
     }
 
-    public String getIngredientName() {
-        return ingredientName;
+    public String getName() {
+        return name;
     }
 
-    public void setIngredientName(String ingredientName) {
-        this.ingredientName = ingredientName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public long getIngredientId() {
-        return ingredientId;
+    public long getId() {
+        return id;
     }
 
-    public void setIngredientId(long ingredientId) {
-        this.ingredientId = ingredientId;
+    public void setIngredientId(long id) {
+        this.id = id;
     }
 
     @Override
@@ -36,20 +36,20 @@ public class Ingredient {
         if (this == o) return true;
         if (!(o instanceof Ingredient)) return false;
         Ingredient that = (Ingredient) o;
-        return getIngredientId() == that.getIngredientId() &&
-                getIngredientName().equals(that.getIngredientName());
+        return getId() == that.getId() &&
+                getName().equals(that.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getIngredientName(), getIngredientId());
+        return Objects.hash(getName(), getId());
     }
 
     @Override
     public String toString() {
         return "Ingredients{" +
-                "ingredientName='" + ingredientName + '\'' +
-                ", ingredientId=" + ingredientId +
+                "ingredientName='" + name + '\'' +
+                ", ingredientId=" + id +
                 '}';
     }
 }
