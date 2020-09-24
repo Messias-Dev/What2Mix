@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "521662576017",
+    "firebase_url": "https://what2mix.firebaseio.com",
+    "project_id": "what2mix",
+    "storage_bucket": "what2mix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521662576017:android:db51c662cd01a9f6079630",
+        "android_client_info": {
+          "package_name": "com.what2mix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521662576017-sbd95mtpsf01cfakmkgqjlm90f7o5mor.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.what2mix",
+            "certificate_hash": "8dcbc26c66fda4507994897d7f830412583b98a9"
+          }
+        },
+        {
+          "client_id": "521662576017-mbs4c7ur7ncdp1balhjppqt7il90ml92.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFZKb-w2RS-hQmrWuSx13s_2nU_K35cCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521662576017-mbs4c7ur7ncdp1balhjppqt7il90ml92.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
