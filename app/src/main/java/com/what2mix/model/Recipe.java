@@ -1,7 +1,6 @@
 package com.what2mix.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,9 +10,9 @@ public class Recipe {
     private String recipeName;
     private User owner;
     private LocalDate creationDate;
-    private List<Ingredients> ingredients;
+    private List<Ingredient> ingredients;
 
-    public Recipe(long recipeId, String recipeName, User owner, LocalDate creationDate, List<Ingredients> ingredients) {
+    public Recipe(long recipeId, String recipeName, User owner, LocalDate creationDate, List<Ingredient> ingredients) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;
         this.owner = owner;
@@ -56,11 +55,11 @@ public class Recipe {
         this.creationDate = creationDate;
     }
 
-    public List<Ingredients> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredients> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 

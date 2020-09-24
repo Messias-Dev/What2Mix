@@ -2,17 +2,17 @@ package com.what2mix.model;
 
 import java.util.Objects;
 
-public class Ingredients {
+public class Ingredient {
 
     private String ingredientName;
     private long ingredientId;
 
-    public Ingredients(String ingredientName, long ingredientId) {
+    public Ingredient(String ingredientName, long ingredientId) {
         this.ingredientName = ingredientName;
         this.ingredientId = ingredientId;
     }
 
-    public Ingredients() {
+    public Ingredient() {
     }
 
     public String getIngredientName() {
@@ -34,8 +34,8 @@ public class Ingredients {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Ingredients)) return false;
-        Ingredients that = (Ingredients) o;
+        if (!(o instanceof Ingredient)) return false;
+        Ingredient that = (Ingredient) o;
         return getIngredientId() == that.getIngredientId() &&
                 getIngredientName().equals(that.getIngredientName());
     }
