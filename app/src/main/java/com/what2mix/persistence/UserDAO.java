@@ -14,14 +14,16 @@ import com.what2mix.domain.User;
 
 public class UserDAO {
 
+    private FirebaseAuth auth;
+
     public void signUp(User user) throws FirebaseAuthException {
         boolean status = false;
-        FirebaseAuth mAuth = FirebaseConfig.getFirebaseAuth();
+        auth = FirebaseConfig.getFirebaseAuth();
         String name = user.getName();
         String email = user.getEmail();
         String password = user.getPassword();
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
