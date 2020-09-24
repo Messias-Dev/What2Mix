@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.what2mix.R;
+import com.what2mix.config.FirebaseConfig;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private EditText etSignUpName, etSignUpEmail, etSignUpPassword;
     private Button btSignUp;
+    public FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
