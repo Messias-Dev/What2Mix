@@ -1,4 +1,4 @@
-package com.what2mix.model;
+package com.what2mix.domain;
 
 import java.util.List;
 import java.util.Objects;

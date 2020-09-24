@@ -1,4 +1,4 @@
-package com.what2mix.model;
+package com.what2mix.domain;
 
 import java.time.LocalDate;
 import java.util.List;
