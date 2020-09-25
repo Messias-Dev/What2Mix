@@ -6,53 +6,53 @@ import java.util.Objects;
 
 public class Recipe {
 
-    private long id;
-    private String name;
-    private User owner;
-    private LocalDate creationDate;
+    private Long id;
+    private Long userId;
+    private String title;
+    private String description;
+    private LocalDate createdAt;
     private List<Ingredient> ingredients;
 
-    public Recipe(long id, String name, User owner, LocalDate creationDate, List<Ingredient> ingredients) {
-        this.id = id;
-        this.name = name;
-        this.owner = owner;
-        this.creationDate = creationDate;
-        this.ingredients = ingredients;
-    }
-
-    public Recipe() {
-    }
-
-    public long getId() {
+    
+    
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public User getOwner() {
-        return owner;
+    public String getDescription() {
+        return description;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public LocalDate getCreationDate() {
-        return creationDate;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 
     public List<Ingredient> getIngredients() {
@@ -68,26 +68,16 @@ public class Recipe {
         if (this == o) return true;
         if (!(o instanceof Recipe)) return false;
         Recipe recipe = (Recipe) o;
-        return getId() == recipe.getId() &&
-                Objects.equals(getName(), recipe.getName()) &&
-                Objects.equals(getOwner(), recipe.getOwner()) &&
-                Objects.equals(getCreationDate(), recipe.getCreationDate()) &&
-                Objects.equals(getIngredients(), recipe.getIngredients());
+        return getId().equals(recipe.getId()) &&
+                getUserId().equals(recipe.getUserId()) &&
+                getTitle().equals(recipe.getTitle()) &&
+                getDescription().equals(recipe.getDescription()) &&
+                getCreatedAt().equals(recipe.getCreatedAt()) &&
+                getIngredients().equals(recipe.getIngredients());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getOwner(), getCreationDate(), getIngredients());
-    }
-
-    @Override
-    public String toString() {
-        return "Recipe{" +
-                "recipeId=" + id +
-                ", recipeName='" + name + '\'' +
-                ", owner=" + owner +
-                ", creationDate=" + creationDate +
-                ", ingredients=" + ingredients +
-                '}';
+        return Objects.hash(getId(), getUserId(), getTitle(), getDescription(), getCreatedAt(), getIngredients());
     }
 }
