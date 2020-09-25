@@ -17,7 +17,6 @@ public class UserDAO {
     private FirebaseAuth auth;
 
     public void signUp(User user) throws FirebaseAuthException {
-        boolean status = false;
         auth = FirebaseConfig.getFirebaseAuth();
         String name = user.getName();
         String email = user.getEmail();
@@ -26,7 +25,6 @@ public class UserDAO {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-
             }
         });
 
