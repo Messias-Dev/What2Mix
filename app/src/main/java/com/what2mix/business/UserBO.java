@@ -21,8 +21,8 @@ public class UserBO {
         dao.signUp(user);
     }
 
-    public User login(String email, String password) {
-
+    public User login(String email, String password) throws DataInsufficientException {
+        validateLogin(email, password);
         return null;
     }
 
@@ -37,6 +37,18 @@ public class UserBO {
         if (password.equals(null) || password.trim().isEmpty()) {
             throw new DataInsufficientException("Senha não pode ser vazia !");
         }
+    }
+
+    private void validateLogin(String email, String password) throws DataInsufficientException {
+
+        if (password.equals(null) || password.trim().isEmpty()) {
+            throw new DataInsufficientException("Senha não pode ser vazia !");
+        }
+
+        if (email.equals(null) || email.trim().isEmpty()) {
+            throw new DataInsufficientException("E-mail não pode ser vazio !");
+        }
+
     }
 
 }
