@@ -13,8 +13,14 @@ public class Recipe {
     private LocalDate createdAt;
     private List<Ingredient> ingredients;
 
-    
-    
+    public Recipe(Long userId, String title, String description, LocalDate createdAt, List<Ingredient> ingredients) {
+        this.userId = userId;
+        this.title = title;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.ingredients = ingredients;
+    }
+
     public Long getId() {
         return id;
     }
