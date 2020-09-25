@@ -18,7 +18,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     private EditText etSignUpName, etSignUpEmail, etSignUpPassword;
     private Button btSignUp;
-    public FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void assignElements(){
         etSignUpName = findViewById(R.id.etSignUpName);
-        etSignUpEmail = findViewById(R.id.etLoginEmail);
+        etSignUpEmail = findViewById(R.id.etSignUpEmail);
         etSignUpPassword = findViewById(R.id.etSignUpPassword);
         btSignUp = findViewById(R.id.btSignUp);
     }
