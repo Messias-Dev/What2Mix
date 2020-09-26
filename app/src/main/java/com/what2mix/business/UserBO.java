@@ -12,19 +12,10 @@ public class UserBO {
 
 
 
-    public void register(String name, String email, String password) throws FirebaseAuthException, DataInsufficientException {
-        System.out.println("==================================================================================");
-        System.out.println("passou pelo register da business");
-        System.out.println("==================================================================================");
+    public String register(String name, String email, String password) throws DataInsufficientException {
         validateRegister(name, email, password);
-
         User user = new User(name, email, password);
-        System.out.println("==================================================================================");
-        System.out.println("Argumentos a ser passados: "+name+", " +email+", " +password);
-        System.out.println("==================================================================================");
-
-        UserDAO dao = new UserDAO();
-        dao.signUp(email, password);
+        return new UserDAO().signUp(user);
     }
 
     public User login(String email, String password) throws DataInsufficientException {

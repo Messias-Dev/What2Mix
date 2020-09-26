@@ -51,18 +51,13 @@ public class SignUpActivity extends AppCompatActivity {
         String password = etSignUpPassword.getText().toString();
 
         try {
-            new UserBO().register(name, email, password);
-        } catch (FirebaseAuthException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG);
-            System.out.println("==================================================================================");
-            System.out.println(e.getMessage());
-            System.out.println("==================================================================================");
-        } catch (DataInsufficientException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG);
-            System.out.println("==================================================================================");
-            System.out.println(e.getMessage());
-            System.out.println("==================================================================================");
+            Toast.makeText(this, new UserBO().register(name, email, password), Toast.LENGTH_LONG).show();
+        } catch (final DataInsufficientException e) {
+            runOnUiThread(new Runnable(){
+                public void run() {
+                    Toast.makeText(getApplicationContext(), e.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
-
 }
