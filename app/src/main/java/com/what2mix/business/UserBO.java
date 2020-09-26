@@ -10,15 +10,21 @@ import com.what2mix.persistence.UserDAO;
 
 public class UserBO {
 
-    private UserDAO dao;
+
 
     public void register(String name, String email, String password) throws FirebaseAuthException, DataInsufficientException {
-
+        System.out.println("==================================================================================");
+        System.out.println("passou pelo register da business");
+        System.out.println("==================================================================================");
         validateRegister(name, email, password);
 
         User user = new User(name, email, password);
+        System.out.println("==================================================================================");
+        System.out.println("Argumentos a ser passados: "+name+", " +email+", " +password);
+        System.out.println("==================================================================================");
 
-        dao.signUp(user);
+        UserDAO dao = new UserDAO();
+        dao.signUp(email, password);
     }
 
     public User login(String email, String password) throws DataInsufficientException {

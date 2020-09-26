@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -52,9 +53,15 @@ public class SignUpActivity extends AppCompatActivity {
         try {
             new UserBO().register(name, email, password);
         } catch (FirebaseAuthException e) {
-            e.printStackTrace();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG);
+            System.out.println("==================================================================================");
+            System.out.println(e.getMessage());
+            System.out.println("==================================================================================");
         } catch (DataInsufficientException e) {
-            e.printStackTrace();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG);
+            System.out.println("==================================================================================");
+            System.out.println(e.getMessage());
+            System.out.println("==================================================================================");
         }
     }
 
