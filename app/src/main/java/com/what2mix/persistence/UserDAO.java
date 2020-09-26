@@ -13,27 +13,14 @@ public class UserDAO {
 
     private FirebaseAuth auth = FirebaseAuth.getInstance();
 
-    public String signUp(User user){
+    public String signUp(User user) {
         auth = FirebaseConfig.getFirebaseAuth();
         String email = user.getEmail();
         String password = user.getPassword();
         String name = user.getName();
         final String message = "";
 
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                message.concat("Usuário cadastrado com sucesso!");
-                } else {
-                    try {
-                        throw task.getException();
-                    } catch (Exception e) {
-                        message.concat(e.getMessage());
-                    }
-                }
-            }
-        });
+        auth.createUserWithEmailAndPassword(email, password);
         return message;
     }
 
