@@ -11,12 +11,10 @@ import com.what2mix.persistence.UserDAO;
 
 public class UserBO {
 
+    private UserDAO dao;
 
+    public void register(User user) throws DataInsufficientException {
 
-    public User register(String name, String email, String password) throws DataInsufficientException {
-        validateRegister(name, email, password);
-        User user = new User(name, email, password);
-        return user;
     }
 
     public User login(String email, String password) throws DataInsufficientException {
@@ -24,7 +22,7 @@ public class UserBO {
         return null;
     }
 
-    private void validateRegister(String name, String email, String password) throws DataInsufficientException {
+    public User validateRegister(String name, String email, String password) throws DataInsufficientException {
         if (name.equals(null) || name.trim().isEmpty()) {
             throw new DataInsufficientException("Nome não pode ser vazio!");
         }
@@ -35,9 +33,12 @@ public class UserBO {
         if (password.equals(null) || password.trim().isEmpty()) {
             throw new DataInsufficientException("Senha não pode ser vazia!");
         }
+
+        User user = new User(name, email, password);
+        return user;
     }
 
-    private void validateLogin(String email, String password) throws DataInsufficientException {
+    public void validateLogin(String email, String password) throws DataInsufficientException {
 
         if (password.equals(null) || password.trim().isEmpty()) {
             throw new DataInsufficientException("Senha não pode ser vazia!");

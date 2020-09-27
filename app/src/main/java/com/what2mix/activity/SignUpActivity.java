@@ -26,6 +26,7 @@ import com.what2mix.exception.DataInsufficientException;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private UserBO  bo;
     private EditText etSignUpName, etSignUpEmail, etSignUpPassword;
     private Button btSignUp;
     private FirebaseAuth auth;
@@ -61,7 +62,8 @@ public class SignUpActivity extends AppCompatActivity {
         String password = etSignUpPassword.getText().toString();
 
         try {
-            User user = new UserBO().register(name, email, password);
+
+            User user = bo.validateRegister(name, email, password);
 
             auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
@@ -96,6 +98,8 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 }
             });
+
+            bo.register(user);
 
         } catch (final DataInsufficientException e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
