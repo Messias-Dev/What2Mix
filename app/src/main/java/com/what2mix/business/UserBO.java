@@ -15,6 +15,7 @@ public class UserBO {
 
     public void register(User user) throws DataInsufficientException {
 
+
     }
 
     public User login(String email, String password) throws DataInsufficientException {
