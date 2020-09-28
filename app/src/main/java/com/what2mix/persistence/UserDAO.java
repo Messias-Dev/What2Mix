@@ -34,6 +34,6 @@ public class UserDAO {
             }
         });
 
-        database.child("users").child(String.valueOf(maxId+1)).setValue(user);
+        database.child(String.valueOf(maxId+1)).setValue(user);
     }
 }

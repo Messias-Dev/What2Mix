@@ -8,7 +8,7 @@ import com.what2mix.persistence.UserDAO;
 
 public class UserBO {
 
-    private UserDAO dao;
+    private UserDAO dao = new UserDAO();
 
     public void register(User user) {
 

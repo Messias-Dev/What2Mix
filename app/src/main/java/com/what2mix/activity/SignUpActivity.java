@@ -26,7 +26,7 @@ import com.what2mix.exception.InputPasswordException;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private UserBO bo;
+    private UserBO bo = new UserBO();
     private User user = null;
     private EditText etSignUpName, etSignUpEmail, etSignUpPassword;
     private Button btSignUp;
@@ -57,14 +57,15 @@ public class SignUpActivity extends AppCompatActivity {
         btSignUp = findViewById(R.id.btSignUp);
     }
 
-    // FIXME Erro de parâmetro nulo
     private void register() {
         String name = etSignUpName.getText().toString();
         String email = etSignUpEmail.getText().toString();
         String password = etSignUpPassword.getText().toString();
 
         try {
-
+            System.out.println("===========================================");
+            System.out.println("vai validar com: "+name+email+password);
+            System.out.println("===========================================");
             user = bo.validateRegister(name, email, password);
             System.out.println("===========================================");
             System.out.println("validou");
