@@ -9,12 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
@@ -22,7 +20,9 @@ import com.what2mix.R;
 import com.what2mix.business.UserBO;
 import com.what2mix.config.FirebaseConfig;
 import com.what2mix.domain.User;
-import com.what2mix.exception.DataInsufficientException;
+import com.what2mix.exception.InputEmailException;
+import com.what2mix.exception.InputNameException;
+import com.what2mix.exception.InputPasswordException;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -97,8 +97,14 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             });
 
-        } catch (final DataInsufficientException e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        } catch (InputNameException e) {
+            etSignUpName.setError(e.getMessage());
+
+        } catch (InputEmailException e) {
+            etSignUpEmail.setError(e.getMessage());
+
+        } catch (InputPasswordException e) {
+            etSignUpPassword.setError(e.getMessage());
         }
     }
 }

@@ -1,10 +1,10 @@
 package com.what2mix.exception;
 
-public class DataInsufficientException extends  Exception {
+public class InputNameException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    public DataInsufficientException(String message){
+    public InputNameException(String message){
         super(message);
     }
 
