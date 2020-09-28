@@ -20,11 +20,14 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.what2mix.R;
 import com.what2mix.business.UserBO;
 import com.what2mix.config.FirebaseConfig;
+import com.what2mix.domain.User;
 import com.what2mix.exception.InputNameException;
 import com.what2mix.exception.InputPasswordException;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private UserBO bo = new UserBO();
+    private User user = null;
     private EditText etLoginEmail, etLoginPassword;
     private Button btLogin;
     private TextView tvLoginSignUp;
@@ -68,8 +71,11 @@ public class LoginActivity extends AppCompatActivity {
         String password = etLoginPassword.getText().toString();
 
         try {
-            if (new UserBO().login(email, password)){
-                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+            user = bo.validateLogin(email, password);
+
+            if (user != null){
+                auth.signInWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 

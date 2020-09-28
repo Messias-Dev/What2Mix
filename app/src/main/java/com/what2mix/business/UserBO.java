@@ -16,10 +16,11 @@ public class UserBO {
 
     }
 
-    public Boolean login(String email, String password) throws InputNameException, InputPasswordException {
-
-        return true;
-    }
+    // FIXME Pensar melhor na arquitetura (deixar para final)
+//    public Boolean login(String email, String password) throws InputNameException, InputPasswordException {
+//
+//        return true;
+//    }
 
     public User validateRegister(String name, String email, String password) throws InputNameException, InputEmailException, InputPasswordException {
         if (name.equals(null) || name.trim().isEmpty()) {
@@ -38,7 +39,7 @@ public class UserBO {
         return user;
     }
 
-    public void validateLogin(String email, String password) throws InputNameException, InputPasswordException {
+    public User validateLogin(String email, String password) throws InputNameException, InputPasswordException {
 
         if (password.equals(null) || password.trim().isEmpty()) {
             throw new InputPasswordException("Senha não pode ser vazia!");
@@ -48,6 +49,8 @@ public class UserBO {
             throw new InputNameException("E-mail não pode ser vazio!");
         }
 
+        User user = new User(email, password);
+        return user;
     }
 
 }
