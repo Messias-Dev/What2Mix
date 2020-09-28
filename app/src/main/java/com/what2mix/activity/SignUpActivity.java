@@ -26,7 +26,7 @@ import com.what2mix.exception.InputPasswordException;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private UserBO  bo;
+    private UserBO bo;
     private User user = null;
     private EditText etSignUpName, etSignUpEmail, etSignUpPassword;
     private Button btSignUp;
@@ -39,7 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
         assignElements();
-        auth =  FirebaseConfig.getFirebaseAuth();
+        auth = FirebaseConfig.getFirebaseAuth();
 
         btSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,50 +50,59 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    private void assignElements(){
+    private void assignElements() {
         etSignUpName = findViewById(R.id.etSignUpName);
         etSignUpEmail = findViewById(R.id.etSignUpEmail);
         etSignUpPassword = findViewById(R.id.etSignUpPassword);
         btSignUp = findViewById(R.id.btSignUp);
     }
 
-    private void register(){
-        final String name = etSignUpName.getText().toString();
-        final String email = etSignUpEmail.getText().toString();
-        final String password = etSignUpPassword.getText().toString();
+    // FIXME Erro de parâmetro nulo
+    private void register() {
+        String name = etSignUpName.getText().toString();
+        String email = etSignUpEmail.getText().toString();
+        String password = etSignUpPassword.getText().toString();
 
         try {
 
-            bo.validateRegister(name, email, password);
-
+            user = bo.validateRegister(name, email, password);
+            System.out.println("===========================================");
+            System.out.println("validou");
+            System.out.println("===========================================");
             auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
+
+                    if (task.isSuccessful()) {
+                        System.out.println("===========================================");
+                        System.out.println("registrou no autenticate");
+                        System.out.println("===========================================");
                         Toast.makeText(getApplicationContext(), "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show();
 
-                            bo.register(name, email, password);
+                        bo.register(user);
+                        System.out.println("===========================================");
+                        System.out.println("registuo no database");
+                        System.out.println("===========================================");
 
                         finish();
 
-                    }
-                    else{
+                    } else {
                         String exception = "";
 
                         try {
                             throw task.getException();
 
-                        } catch (FirebaseAuthWeakPasswordException e){
+                        } catch (FirebaseAuthWeakPasswordException e) {
                             exception = "Senha inválida!\nDigite uma senha mais forte.";
 
-                        } catch (FirebaseAuthInvalidCredentialsException e){
+                        } catch (FirebaseAuthInvalidCredentialsException e) {
                             exception = "Email inválido!\nDigite um email válido.";
 
-                        } catch (FirebaseAuthUserCollisionException e){
+                        } catch (FirebaseAuthUserCollisionException e) {
                             exception = "Esse usuário já cadastrado!";
 
-                        } catch (Exception e){
-                            exception =  "Erro ao cadastrar usuário!" + e.getMessage();
+                        } catch (Exception e) {
+                            exception = "Erro ao cadastrar usuário!" + e.getMessage();
                             e.printStackTrace();
 
                         }

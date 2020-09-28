@@ -16,8 +16,10 @@ public class UserDAO {
    private DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("users");
    private Long maxId = 0L;
 
-    private void writeNewUser(User user) {
-
+    public void writeNewUser(User user) {
+        System.out.println("===========================================");
+        System.out.println("vai registrar no database");
+        System.out.println("===========================================");
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
