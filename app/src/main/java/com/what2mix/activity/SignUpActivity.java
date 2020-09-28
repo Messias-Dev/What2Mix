@@ -58,24 +58,22 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void register(){
-        String name = etSignUpName.getText().toString();
-        String email = etSignUpEmail.getText().toString();
-        String password = etSignUpPassword.getText().toString();
+        final String name = etSignUpName.getText().toString();
+        final String email = etSignUpEmail.getText().toString();
+        final String password = etSignUpPassword.getText().toString();
 
         try {
 
-            user = bo.validateRegister(name, email, password);
+            bo.validateRegister(name, email, password);
 
             auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
                         Toast.makeText(getApplicationContext(), "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show();
-                        try {
-                            bo.register(user);
-                        } catch (DataInsufficientException e) {
-                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
+
+                            bo.register(name, email, password);
+
                         finish();
 
                     }
