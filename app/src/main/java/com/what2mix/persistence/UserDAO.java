@@ -19,6 +19,7 @@ public class UserDAO {
 
     public void writeNewUser(User user) {
 
+        user.setPassword(null);
         database.push().setValue(user);
 
 
