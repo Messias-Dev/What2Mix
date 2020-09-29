@@ -13,27 +13,15 @@ import com.what2mix.domain.User;
 
 public class UserDAO {
 
-   private DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("users");
-   private Long maxId = 0L;
+    
+
+    private DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("users");
 
     public void writeNewUser(User user) {
-        System.out.println("===========================================");
-        System.out.println("vai registrar no database");
-        System.out.println("===========================================");
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    maxId = dataSnapshot.getChildrenCount();
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+        database.push().setValue(user);
 
-            }
-        });
 
-        database.child(String.valueOf(maxId+1)).setValue(user);
+
     }
 }
