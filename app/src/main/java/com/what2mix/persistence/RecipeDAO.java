@@ -8,11 +8,10 @@ public class RecipeDAO {
 
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("recipes");
 
-    // TODO Método para gravar receita no Realtime Database
+
     public void writeNewRecipe(Recipe recipe) {
 
-        // TODO AutoId
-        database.child(null).setValue(recipe);
+        database.push().setValue(recipe);
     }
 
 }
