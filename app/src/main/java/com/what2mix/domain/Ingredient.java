@@ -12,6 +12,10 @@ public class Ingredient {
         this.id = ingredientId;
     }
 
+    public Ingredient(String name) {
+        this.name = name;
+    }
+
     public Ingredient() {
     }
 

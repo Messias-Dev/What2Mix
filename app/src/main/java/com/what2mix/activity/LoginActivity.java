@@ -123,4 +123,9 @@ public class LoginActivity extends AppCompatActivity {
             openUserActivity();
         }
     }
+
+    public void goToAddIngredient(View view) {
+        Intent intent = new Intent(getApplicationContext(), IngredientsImprovisedActivity.class);
+        startActivity(intent);
+    }
 }
