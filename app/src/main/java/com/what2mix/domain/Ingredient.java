@@ -5,9 +5,9 @@ import java.util.Objects;
 public class Ingredient {
 
     private String name;
-    private long id;
+    private String id;
 
-    public Ingredient(String name, long ingredientId) {
+    public Ingredient(String name, String ingredientId) {
         this.name = name;
         this.id = ingredientId;
     }
@@ -27,11 +27,11 @@ public class Ingredient {
         this.name = name;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setIngredientId(long id) {
+    public void setIngredientId(String id) {
         this.id = id;
     }
 
