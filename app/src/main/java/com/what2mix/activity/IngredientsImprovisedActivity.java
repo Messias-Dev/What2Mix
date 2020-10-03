@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.what2mix.R;
 import com.what2mix.persistence.IngredientDAO;
@@ -25,6 +26,8 @@ public class IngredientsImprovisedActivity extends AppCompatActivity {
 
         String name = txtIngredientName.getText().toString();
 
-        dao.writeNewIngredient(name);
+       if (dao.writeNewIngredient(name)){
+           Toast.makeText(getApplicationContext(), "Nome já existe !", Toast.LENGTH_LONG).show();
+       }
     }
 }
