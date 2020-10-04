@@ -26,8 +26,7 @@ public class IngredientsImprovisedActivity extends AppCompatActivity {
 
         String name = txtIngredientName.getText().toString();
 
-       if (dao.writeNewIngredient(name)){
-           Toast.makeText(getApplicationContext(), "Nome já existe !", Toast.LENGTH_LONG).show();
-       }
+        dao.writeNewIngredient(getApplicationContext(), name);
+        finish();
     }
 }
