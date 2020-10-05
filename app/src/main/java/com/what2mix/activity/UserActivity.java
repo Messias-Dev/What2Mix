@@ -1,41 +1,65 @@
 package com.what2mix.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.what2mix.R;
 import com.what2mix.config.FirebaseConfig;
+import com.what2mix.fragment.CreateFragment;
+import com.what2mix.fragment.SearchFragment;
+import com.what2mix.fragment.UserFragment;
 
 public class UserActivity extends AppCompatActivity {
 
     private Button bt;
     private FirebaseAuth auth;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user2);
-        bt = findViewById(R.id.btSignOut);
-        auth = FirebaseConfig.getFirebaseAuth();
+        setContentView(R.layout.activity_user);
+        getSupportActionBar().hide();
+        setFragmentOnOpen();
 
-        bt.setOnClickListener(new View.OnClickListener() {
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                signOut();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
+
+                switch (item.getItemId()) {
+                    case R.id.nav_search:
+                        selectedFragment = new SearchFragment();
+                        break;
+
+                    case R.id.nav_create:
+                        selectedFragment = new CreateFragment();
+                        break;
+
+                    case R.id.nav_user:
+                        selectedFragment = new UserFragment();
+                        break;
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+                return true;
+
             }
         });
     }
 
-    private void signOut(){
-        auth.signOut();
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intent);
-        finish();
+    private void setFragmentOnOpen(){
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new SearchFragment()).commit();
     }
-
 }

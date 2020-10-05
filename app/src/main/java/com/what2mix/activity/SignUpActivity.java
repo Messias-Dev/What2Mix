@@ -63,28 +63,16 @@ public class SignUpActivity extends AppCompatActivity {
         String password = etSignUpPassword.getText().toString();
 
         try {
-            System.out.println("===========================================");
-            System.out.println("vai validar com: "+name+email+password);
-            System.out.println("===========================================");
+
             user = bo.validateRegister(name, email, password);
-            System.out.println("===========================================");
-            System.out.println("validou");
-            System.out.println("===========================================");
+
             auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                     if (task.isSuccessful()) {
-                        System.out.println("===========================================");
-                        System.out.println("registrou no autenticate");
-                        System.out.println("===========================================");
                         Toast.makeText(getApplicationContext(), "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show();
-
                         bo.register(user);
-                        System.out.println("===========================================");
-                        System.out.println("registuo no database");
-                        System.out.println("===========================================");
-
                         finish();
 
                     } else {
