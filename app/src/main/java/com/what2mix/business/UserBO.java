@@ -53,4 +53,11 @@ public class UserBO {
         return user;
     }
 
+    public User getLoggedUser(String email){
+
+        User user = dao.findByEmail(email);
+
+        return user;
+    }
+
 }
