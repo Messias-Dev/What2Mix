@@ -27,11 +27,9 @@ import com.what2mix.domain.User;
 public class UserFragment extends Fragment {
 
     private UserBO bo = new UserBO();
-    private TextView tvUserName;
-    private Button btnLoggout;
+    private TextView tvUserName, tvSignOut;
     private DatabaseReference reference;
-    private FirebaseAuth auth = FirebaseConfig.getFirebaseAuth();
-    private FirebaseUser firebaseUser = auth.getCurrentUser();
+    private FirebaseAuth auth;
 
 
     @Nullable
@@ -43,24 +41,37 @@ public class UserFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        auth = FirebaseAuth.getInstance();
 
-        tvUserName = view.findViewById(R.id.tvUsername);
+        assignLayoutElements(view);
+        setUserName();
 
-        btnLoggout =  view.findViewById(R.id.btnLoggout);
-
-        tvUserName.setText(firebaseUser.getDisplayName());
-
-        btnLoggout.setOnClickListener(new View.OnClickListener() {
+        tvSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                auth.signOut();
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
+                signOut();
             }
         });
 
-        super.onViewCreated(view, savedInstanceState);
+    }
 
+    private void signOut() {
+        auth.signOut();
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
+    private void assignLayoutElements(View view) {
+        tvUserName = view.findViewById(R.id.tvUsername);
+        tvSignOut =  view.findViewById(R.id.tvSignOut);
+    }
+
+    private void setUserName() {
+        String name = auth.getCurrentUser().getDisplayName();
+
+        tvUserName.setText(name);
     }
 
 }
