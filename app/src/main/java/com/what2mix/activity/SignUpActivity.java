@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.what2mix.R;
 import com.what2mix.business.UserBO;
 import com.what2mix.config.FirebaseConfig;
@@ -71,8 +74,17 @@ public class SignUpActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                     if (task.isSuccessful()) {
-                        Toast.makeText(getApplicationContext(), "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show();
+
+                        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                        UserProfileChangeRequest userProfile = new UserProfileChangeRequest.Builder().setDisplayName(user.getName()).build();
+
+                        firebaseUser.updateProfile(userProfile);
+
                         bo.register(user);
+
+                        Toast.makeText(getApplicationContext(), "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show();
+
                         finish();
 
                     } else {

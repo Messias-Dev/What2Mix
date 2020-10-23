@@ -29,8 +29,6 @@ public class UserDAO {
         user.setPassword(null);
         database.push().setValue(user);
 
-
-
     }
 
     // FIXME melhorar arquitetura (deixar para final)
