@@ -17,6 +17,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.what2mix.activity.IngredientsImprovisedActivity;
 import com.what2mix.domain.Ingredient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class IngredientDAO {
 
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("ingredients");
@@ -24,6 +27,7 @@ public class IngredientDAO {
     private String nameExample = null;
     private Ingredient ingredient = null;
     private Boolean isDuplicated = false;
+    private List<String> ingredientsList = new ArrayList<>();
 
 
     public void writeNewIngredient(Context tela, String name) {
@@ -99,4 +103,23 @@ public class IngredientDAO {
         });
     }
 
+    public List<String> findAllNames(){
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    String ingredient = data.child("name").getValue().toString();
+                    System.out.println(ingredient);
+                    ingredientsList.add(ingredient);
+                    System.out.println(ingredientsList.size());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return  ingredientsList;
+    }
 }

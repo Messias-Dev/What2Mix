@@ -1,42 +1,45 @@
 package com.what2mix.fragment;
 
-        import android.os.Bundle;
-        import android.view.Gravity;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.ArrayAdapter;
-        import android.widget.AutoCompleteTextView;
-        import android.widget.Button;
-        import android.widget.EditText;
-        import android.widget.ImageView;
-        import android.widget.LinearLayout;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import androidx.annotation.NonNull;
-        import androidx.annotation.Nullable;
-        import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-        import com.google.firebase.database.DataSnapshot;
-        import com.google.firebase.database.DatabaseError;
-        import com.google.firebase.database.DatabaseReference;
-        import com.google.firebase.database.FirebaseDatabase;
-        import com.google.firebase.database.ValueEventListener;
-        import com.what2mix.R;
-        import com.what2mix.config.FirebaseConfig;
-        import com.what2mix.domain.Ingredient;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.what2mix.R;
+import com.what2mix.business.IngredientBO;
+import com.what2mix.config.FirebaseConfig;
+import com.what2mix.domain.Ingredient;
+import com.what2mix.persistence.IngredientDAO;
 
-        import org.json.JSONObject;
+import org.json.JSONObject;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchFragment extends Fragment {
-private ImageView btAddIngredients;
-private AutoCompleteTextView actvIngredients;
-private DatabaseReference ref;
-private List<String> ingredientsList = new ArrayList<>();
+
+    private IngredientBO bo = new IngredientBO();
+    private ImageView btAddIngredients;
+    private AutoCompleteTextView actvIngredients;
+    private List<String> ingredientsList = new ArrayList<>();
 
 
     @Nullable
@@ -51,40 +54,21 @@ private List<String> ingredientsList = new ArrayList<>();
         super.onViewCreated(view, savedInstanceState);
 
         actvIngredients = view.findViewById(R.id.actvIngredients);
-        ref = FirebaseConfig.getFirebaseReference();
-
-
-        ref.child("ingredients").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()){
-                    String ingredient = data.child("name").getValue().toString();
-                    System.out.println(ingredient);
-                    ingredientsList.add(ingredient);
-                    System.out.println(ingredientsList.size());
-                }
-                updateAutoComplete();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-
-
+        getIngredientsOnDatabase();
 
     }
 
-    private void updateAutoComplete(){
-        ArrayAdapter adapter = new ArrayAdapter<String>( getActivity(),android.R.layout.simple_dropdown_item_1line, ingredientsList);
+    private void getIngredientsOnDatabase() {
+        ingredientsList = bo.getAllIngredientsNames();
+        updateAutoComplete();
+    }
+
+    private void updateAutoComplete() {
+        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ingredientsList);
         actvIngredients.setAdapter(adapter);
     }
 
-    private void addIngredients(){
+    private void addIngredients() {
         final TextView textView = new TextView(getContext());
         //textView.setText(etIngredients.getText().toString());
         textView.setPadding(8, 8, 8, 8);
@@ -104,10 +88,9 @@ private List<String> ingredientsList = new ArrayList<>();
 
         textView.setLayoutParams(params);
 
-       // llIngredientsView.addView(textView);
+        // llIngredientsView.addView(textView);
 
     }
-
 
 
 }
