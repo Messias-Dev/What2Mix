@@ -5,6 +5,8 @@ package com.what2mix.fragment;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
+        import android.widget.ArrayAdapter;
+        import android.widget.AutoCompleteTextView;
         import android.widget.Button;
         import android.widget.EditText;
         import android.widget.ImageView;
@@ -14,12 +16,26 @@ package com.what2mix.fragment;
         import androidx.annotation.NonNull;
         import androidx.annotation.Nullable;
         import androidx.fragment.app.Fragment;
+
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.database.ValueEventListener;
         import com.what2mix.R;
+        import com.what2mix.config.FirebaseConfig;
+        import com.what2mix.domain.Ingredient;
+
+        import org.json.JSONObject;
+
+        import java.util.ArrayList;
+        import java.util.List;
 
 public class SearchFragment extends Fragment {
 private ImageView btAddIngredients;
-private LinearLayout llIngredientsView;
-private EditText etIngredients;
+private AutoCompleteTextView actvIngredients;
+private DatabaseReference ref;
+private List<String> ingredientsList = new ArrayList<>();
 
 
     @Nullable
@@ -32,22 +48,35 @@ private EditText etIngredients;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btAddIngredients = view.findViewById(R.id.btAddIngredients);
-        llIngredientsView = view.findViewById(R.id.IngredientsLinearLayout);
-        etIngredients = view.findViewById(R.id.etIngredients);
 
-        btAddIngredients.setOnClickListener(new View.OnClickListener() {
+        actvIngredients = view.findViewById(R.id.actvIngredients);
+        ref = FirebaseConfig.getFirebaseReference();
+
+
+        ref.child("ingredients").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-               addIngredients();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    System.out.println(data.getValue());
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
+
+
+
 
     }
 
     private void addIngredients(){
         final TextView textView = new TextView(getContext());
-        textView.setText(etIngredients.getText().toString());
+        //textView.setText(etIngredients.getText().toString());
         textView.setPadding(8, 8, 8, 8);
         textView.setGravity(Gravity.CENTER);
         textView.setBackgroundResource(R.drawable.ingredients_background);
@@ -65,7 +94,7 @@ private EditText etIngredients;
 
         textView.setLayoutParams(params);
 
-        llIngredientsView.addView(textView);
+       // llIngredientsView.addView(textView);
 
     }
 
