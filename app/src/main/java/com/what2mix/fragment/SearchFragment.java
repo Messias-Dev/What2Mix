@@ -12,6 +12,7 @@ package com.what2mix.fragment;
         import android.widget.ImageView;
         import android.widget.LinearLayout;
         import android.widget.TextView;
+        import android.widget.Toast;
 
         import androidx.annotation.NonNull;
         import androidx.annotation.Nullable;
@@ -57,10 +58,12 @@ private List<String> ingredientsList = new ArrayList<>();
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
-                    System.out.println(data.getValue());
+                    String ingredient = data.child("name").getValue().toString();
+                    System.out.println(ingredient);
+                    ingredientsList.add(ingredient);
+                    System.out.println(ingredientsList.size());
                 }
-
-
+                updateAutoComplete();
             }
 
             @Override
@@ -72,6 +75,13 @@ private List<String> ingredientsList = new ArrayList<>();
 
 
 
+
+
+    }
+
+    private void updateAutoComplete(){
+        ArrayAdapter adapter = new ArrayAdapter<String>( getActivity(),android.R.layout.simple_dropdown_item_1line, ingredientsList);
+        actvIngredients.setAdapter(adapter);
     }
 
     private void addIngredients(){
