@@ -27,7 +27,7 @@ public class IngredientDAO {
     private String nameExample = null;
     private Ingredient ingredient = null;
     private Boolean isDuplicated = false;
-    private List<String> ingredientsList = new ArrayList<>();
+    private List<String> ingredients = null;
 
 
     public void writeNewIngredient(Context tela, String name) {
@@ -91,7 +91,7 @@ public class IngredientDAO {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        System.out.println(snapshot.child("name"));
+                        //TODO Pegar todos os ingredientes sem critério
                     }
                 }
             }
@@ -104,12 +104,14 @@ public class IngredientDAO {
     }
 
     public List<String> findAllNames(){
+        ingredients = new ArrayList<>();
+
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
                     String ingredient = data.child("name").getValue().toString();
-                    ingredientsList.add(ingredient);
+                    ingredients.add(ingredient);
                 }
             }
 
@@ -118,6 +120,6 @@ public class IngredientDAO {
 
             }
         });
-        return  ingredientsList;
+        return  ingredients;
     }
 }
