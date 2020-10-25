@@ -24,17 +24,18 @@ public class IngredientDAO {
 
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("ingredients");
     private Context context = null;
-    private String nameExample = null;
+    private String name = null;
     private Ingredient ingredient = null;
     private Boolean isDuplicated = false;
-    private List<String> ingredients = null;
+    private List<String> ingredientsName = null;
+    private List<Ingredient> ingredients = null;
 
 
-    public void writeNewIngredient(Context tela, String name) {
-        nameExample = name;
+    public void writeNewIngredient(Context tela, String nameParameter) {
+        name = nameParameter;
         context = tela;
 
-//        ingredient = new Ingredient(nameExample);
+//        ingredient = new Ingredient(name);
 //        database.push().setValue(ingredient);
 
 //        database.setValue(null);
@@ -45,7 +46,7 @@ public class IngredientDAO {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         String nameExist = snapshot.child("name").getValue().toString();
-                        if (nameExample.equals(nameExist)) {
+                        if (name.equals(nameExist)) {
                             System.out.println("====================================");
                             System.out.println(nameExist + "  É DUPLICADO");
                             isDuplicated = true;
@@ -56,7 +57,7 @@ public class IngredientDAO {
                     }
                 }
                 if (!isDuplicated) {
-                    ingredient = new Ingredient(nameExample);
+                    ingredient = new Ingredient(name);
                     database.push().setValue(ingredient).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -103,15 +104,21 @@ public class IngredientDAO {
         });
     }
 
-    public List<String> findAllNames(){
-        ingredients = new ArrayList<>();
+    public Ingredient findByName(String nameParameter){
+
+        name = nameParameter;
 
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
-                    String ingredient = data.child("name").getValue().toString();
-                    ingredients.add(ingredient);
+
+                    String dataName = data.child("name").getValue().toString();
+
+                    if (name.equals(dataName)){
+                        ingredient = data.getValue(Ingredient.class);
+                    }
+
                 }
             }
 
@@ -120,6 +127,26 @@ public class IngredientDAO {
 
             }
         });
-        return  ingredients;
+        return  ingredient;
+    }
+
+    public List<String> findAllNames(){
+        ingredientsName = new ArrayList<>();
+
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    String ingredient = data.child("name").getValue().toString();
+                    ingredientsName.add(ingredient);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return  ingredientsName;
     }
 }
