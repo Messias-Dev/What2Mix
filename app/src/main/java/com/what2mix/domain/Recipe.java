@@ -6,14 +6,15 @@ import java.util.Objects;
 
 public class Recipe {
 
-    private Long id;
-    private Long userId;
+    private String id;
+    private String userId;
     private String title;
     private String description;
     private LocalDate createdAt;
-    private List<Ingredient> ingredients;
+    private List<String> ingredients;
 
-    public Recipe(Long userId, String title, String description, LocalDate createdAt, List<Ingredient> ingredients) {
+    public Recipe(String id, String userId, String title, String description, LocalDate createdAt, List<String> ingredients) {
+        this.id = id;
         this.userId = userId;
         this.title = title;
         this.description = description;
@@ -21,11 +22,19 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-    public Long getId() {
+    public Recipe(String userId, String title, String description, LocalDate createdAt, List<String> ingredients) {
+        this.userId = userId;
+        this.title = title;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.ingredients = ingredients;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -45,11 +54,11 @@ public class Recipe {
         this.description = description;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -61,11 +70,11 @@ public class Recipe {
         this.createdAt = createdAt;
     }
 
-    public List<Ingredient> getIngredients() {
+    public List<String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
 

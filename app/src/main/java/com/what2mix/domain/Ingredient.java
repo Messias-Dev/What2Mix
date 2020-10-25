@@ -7,16 +7,8 @@ public class Ingredient {
     private String name;
     private String id;
 
-    public Ingredient(String name, String ingredientId) {
-        this.name = name;
-        this.id = ingredientId;
-    }
-
     public Ingredient(String name) {
         this.name = name;
-    }
-
-    public Ingredient() {
     }
 
     public String getName() {
