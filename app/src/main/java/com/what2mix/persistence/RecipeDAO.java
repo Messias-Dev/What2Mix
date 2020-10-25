@@ -24,8 +24,9 @@ import java.util.List;
 public class RecipeDAO {
 
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("recipes");
-    private String userId =  null;
+    private String userId = null;
     private List<Recipe> recipes = null;
+    private List<String> ingredients = null;
 
 
     public void writeNewRecipe(Recipe recipe) {
@@ -34,7 +35,7 @@ public class RecipeDAO {
     }
 
     //TODO Testar e escolher qual melhor método
-    public List<Recipe> findAllByUserId(String userIdParameter){
+    public List<Recipe> findAllByUserId(String userIdParameter) {
 
         userId = userIdParameter;
         recipes = new ArrayList<>();
@@ -43,11 +44,11 @@ public class RecipeDAO {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()){
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
 
                     String userIdDatabase = data.child("userId").getValue().toString();
 
-                    if (userId.equals(userIdDatabase)){
+                    if (userId.equals(userIdDatabase)) {
 
                         // Método 1
                         Recipe recipe = data.getValue(Recipe.class);
@@ -83,4 +84,37 @@ public class RecipeDAO {
 
     }
 
+    public List<Recipe> findAllByIngredients(List<String> ingredientsParameter) {
+        ingredients = ingredientsParameter;
+        recipes = new ArrayList<>();
+
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                // Varre cada receita do banco de dados
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+
+                    // Varre cada ingrediente da lista de ingredientes presente no banco de dados
+                    for (DataSnapshot dataIngredient : data.child("ingredients").getChildren()){
+
+                        // Compara se a lista de ingredientes preenchida pela busca contém o ingrediente do banco de dados
+                        if (ingredients.contains(dataIngredient.getValue().toString())){
+                            Recipe recipe = data.getValue(Recipe.class);
+                            recipes.add(recipe);
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        return recipes;
+    }
 }
