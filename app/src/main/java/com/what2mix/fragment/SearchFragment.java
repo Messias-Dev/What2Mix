@@ -7,30 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.what2mix.R;
 import com.what2mix.business.IngredientBO;
-import com.what2mix.config.FirebaseConfig;
-import com.what2mix.domain.Ingredient;
-import com.what2mix.persistence.IngredientDAO;
-
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,13 +38,13 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         actvIngredients = view.findViewById(R.id.actvIngredients);
-        getIngredientsOnDatabase();
+
+        setAutoComplete();
 
     }
 
     private void getIngredientsOnDatabase() {
         ingredientsList = bo.getAllIngredientsNames();
-        updateAutoComplete();
     }
 
     private void updateAutoComplete() {
@@ -68,28 +52,9 @@ public class SearchFragment extends Fragment {
         actvIngredients.setAdapter(adapter);
     }
 
-    private void addIngredients() {
-        final TextView textView = new TextView(getContext());
-        //textView.setText(etIngredients.getText().toString());
-        textView.setPadding(8, 8, 8, 8);
-        textView.setGravity(Gravity.CENTER);
-        textView.setBackgroundResource(R.drawable.ingredients_background);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setVisibility(View.GONE);
-            }
-        });
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        );
-
-        textView.setLayoutParams(params);
-
-        // llIngredientsView.addView(textView);
-
+    private void setAutoComplete(){
+        getIngredientsOnDatabase();
+        updateAutoComplete();
     }
 
 

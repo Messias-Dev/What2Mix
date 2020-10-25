@@ -109,9 +109,7 @@ public class IngredientDAO {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
                     String ingredient = data.child("name").getValue().toString();
-                    System.out.println(ingredient);
                     ingredientsList.add(ingredient);
-                    System.out.println(ingredientsList.size());
                 }
             }
 
