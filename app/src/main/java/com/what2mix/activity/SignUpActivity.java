@@ -39,9 +39,9 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-        getSupportActionBar().hide();
+        setStatusAndActionBar();
         assignElements();
+
         auth = FirebaseConfig.getFirebaseAuth();
 
         btSignUp.setOnClickListener(new View.OnClickListener() {
@@ -122,5 +122,10 @@ public class SignUpActivity extends AppCompatActivity {
         } catch (InputPasswordException e) {
             etSignUpPassword.setError(e.getMessage());
         }
+    }
+
+    public void setStatusAndActionBar(){
+        getSupportActionBar().hide();
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
     }
 }

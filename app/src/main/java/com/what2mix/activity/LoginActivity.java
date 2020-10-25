@@ -37,9 +37,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().hide();
-
+        setStatusAndActionBar();
         assignElements();
+
         auth = FirebaseConfig.getFirebaseAuth();
 
         tvLoginSignUp.setOnClickListener(new View.OnClickListener() {
@@ -127,5 +127,11 @@ public class LoginActivity extends AppCompatActivity {
     public void goToAddIngredient(View view) {
         Intent intent = new Intent(getApplicationContext(), IngredientsImprovisedActivity.class);
         startActivity(intent);
+    }
+
+    public void setStatusAndActionBar(){
+        getSupportActionBar().hide();
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorBackground));
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 }

@@ -1,12 +1,12 @@
 package com.what2mix.fragment;
 
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +24,7 @@ public class SearchFragment extends Fragment {
     private ImageView btAddIngredients;
     private AutoCompleteTextView actvIngredients;
     private List<String> ingredientsList = new ArrayList<>();
+    private LinearLayout ingredientsListView;
 
 
     @Nullable
@@ -38,8 +39,17 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         actvIngredients = view.findViewById(R.id.actvIngredients);
+        btAddIngredients = view.findViewById(R.id.ivAddButton);
+        ingredientsListView = view.findViewById(R.id.ingredientsListView);
 
         setAutoComplete();
+
+        btAddIngredients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addView();
+            }
+        });
 
     }
 
@@ -55,6 +65,24 @@ public class SearchFragment extends Fragment {
     private void setAutoComplete(){
         getIngredientsOnDatabase();
         updateAutoComplete();
+    }
+
+    private void addView() {
+        View ingredientItem = getLayoutInflater().inflate(R.layout.ingredent_item, null, false);
+
+        TextView ingredientName = ingredientItem.findViewById(R.id.tvIngredientName);
+        ingredientName.setText(actvIngredients.getText().toString());
+        actvIngredients.setText("");
+
+        ingredientItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ingredientsListView.removeView(view);
+            }
+        });
+
+        ingredientsListView.addView(ingredientItem);
+
     }
 
 
