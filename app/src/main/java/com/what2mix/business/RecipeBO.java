@@ -12,13 +12,13 @@ public class RecipeBO {
 
     private RecipeDAO dao;
 
-    public void register(Long id, String title, String description, LocalDate createdAt, List<Ingredient> ingredients) throws InputNameException {
+    public void register(String id, String title, String description, LocalDate createdAt, List<String> ingredients) throws InputNameException {
         validate(id, title, description, ingredients);
         Recipe recipe = new Recipe(id, title, description, createdAt, ingredients);
         dao.writeNewRecipe(recipe);
     }
 
-    private void validate(Long id, String title, String description, List<Ingredient> ingredients) throws InputNameException {
+    private void validate(String id, String title, String description, List<String> ingredients) throws InputNameException {
 
         // FIXME Revisar mensagens
         if (id.equals(null)){
