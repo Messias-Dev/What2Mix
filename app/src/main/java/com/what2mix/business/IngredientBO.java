@@ -19,7 +19,7 @@ public class IngredientBO {
 
         validateIngredientName(name);
 
-        Ingredient ingredient = dao.findByName(name);
+       Ingredient ingredient = dao.findByName(name);
 
         return ingredient;
     }

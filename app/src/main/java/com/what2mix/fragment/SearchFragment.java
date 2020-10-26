@@ -81,6 +81,7 @@ public class SearchFragment extends Fragment {
         Ingredient ingredient = null;
         try {
              ingredient = ingredientBO.getIngredientByName(ingredientName);
+
         } catch (InputSearchException e) {
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }

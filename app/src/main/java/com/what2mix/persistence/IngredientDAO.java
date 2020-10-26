@@ -108,25 +108,34 @@ public class IngredientDAO {
 
         name = nameParameter;
 
-        database.addValueEventListener(new ValueEventListener() {
+        ValueEventListener ingredientListener = new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("===================== Vai tentar procurar =====================");
+                // Get Post object and use the values to update the UI
                 for (DataSnapshot data : dataSnapshot.getChildren()){
-
                     String dataName = data.child("name").getValue().toString();
-
                     if (name.equals(dataName)){
                         ingredient = data.getValue(Ingredient.class);
+                        ingredient.setId(data.getKey());
+
+                        System.out.println("===================== ingredientNome: "+ingredient.getName()+" =====================");
+                        System.out.println("===================== ingredientId: "+ingredient.getId()+" =====================");
                     }
 
                 }
+                // ...
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
 
+                // ...
             }
-        });
+        };
+        database.addValueEventListener(ingredientListener);
+
         return  ingredient;
     }
 
