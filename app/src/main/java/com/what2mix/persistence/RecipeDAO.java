@@ -95,16 +95,14 @@ public class RecipeDAO {
                 // Varre cada receita do banco de dados
                 for (DataSnapshot data : dataSnapshot.getChildren()){
 
-                    // Varre cada ingrediente da lista de ingredientes presente no banco de dados
-                    for (DataSnapshot dataIngredient : data.child("ingredients").getChildren()){
+                    // Popula o objeto
+                    Recipe recipe = data.getValue(Recipe.class);
 
-                        // Compara se a lista de ingredientes preenchida pela busca contém o ingrediente do banco de dados
-                        if (ingredients.contains(dataIngredient.getValue().toString())){
-                            Recipe recipe = data.getValue(Recipe.class);
-                            recipes.add(recipe);
-                        }
-
+                    // Verifica se a lista de ingredientes da receita contém a lista de ingredientes da busca
+                    if (recipe.getIngredients().containsAll(ingredients)){
+                        recipes.add(recipe);
                     }
+
                 }
             }
 
