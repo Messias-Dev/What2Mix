@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,12 +14,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.what2mix.R;
 import com.what2mix.business.IngredientBO;
+import com.what2mix.business.RecipeBO;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
 
-    private IngredientBO bo = new IngredientBO();
+    private IngredientBO ingredientBO = new IngredientBO();
+    private RecipeBO recipeBO = new RecipeBO();
     private ImageView btAddIngredients;
     private AutoCompleteTextView actvIngredients;
     private List<String> ingredientsList = new ArrayList<>();
@@ -54,7 +56,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void getIngredientsOnDatabase() {
-        ingredientsList = bo.getAllIngredientsNames();
+        ingredientsList = ingredientBO.getAllIngredientsNames();
     }
 
     private void updateAutoComplete() {
