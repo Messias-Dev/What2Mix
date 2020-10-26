@@ -26,7 +26,7 @@ public class IngredientBO {
 
     private void validateIngredientName(String name) throws InputSearchException {
         if (name.equals(null) || name.trim().isEmpty()){
-            throw new InputSearchException("Campo vazio !");
+            throw new InputSearchException("Campo vazio!");
         }
     }
 }
