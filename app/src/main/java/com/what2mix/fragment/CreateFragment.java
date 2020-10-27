@@ -105,7 +105,7 @@ public class CreateFragment extends Fragment {
         ingredientsListView.removeView(view);
     }
 
-    private View setView(String name) {
+    private View setView(final String name) {
         View ingredientItem = getLayoutInflater().inflate(R.layout.ingredent_item, null, false);
 
         TextView ingredientName = ingredientItem.findViewById(R.id.tvIngredientName);
@@ -115,6 +115,7 @@ public class CreateFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 removeView(view);
+                removeIngredientFromList(name);
             }
         });
 
@@ -129,6 +130,14 @@ public class CreateFragment extends Fragment {
         }
 
         return null;
+    }
+
+    private void removeIngredientFromList(String s){
+        for (Ingredient ingredient : ingredientsSearch) {
+            if (ingredient.getName().equals(s)) {
+                ingredientsSearch.remove(ingredient);
+            }
+        }
     }
 
 
