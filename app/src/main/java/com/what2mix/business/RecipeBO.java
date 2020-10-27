@@ -9,6 +9,7 @@ import com.what2mix.persistence.RecipeDAO;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class RecipeBO {
 
@@ -20,7 +21,7 @@ public class RecipeBO {
         dao.writeNewRecipe(recipe);
     }
 
-    public List<Recipe> getAllRecipesByIngredients(List<String> ingredients) throws InputSearchException {
+    public List<Recipe> getAllRecipesByIngredients(Set<Ingredient> ingredients) throws InputSearchException {
 
         validateIngredients(ingredients);
         List<Recipe> recipes = dao.findAllByIngredients(ingredients);
@@ -45,7 +46,7 @@ public class RecipeBO {
         }
     }
 
-    private void validateIngredients(List<String> ingredients) throws InputSearchException {
+    private void validateIngredients(Set<Ingredient> ingredients) throws InputSearchException {
 
         if (ingredients.isEmpty()) {
             throw new InputSearchException("Escolha ao menos um ingrediente !");

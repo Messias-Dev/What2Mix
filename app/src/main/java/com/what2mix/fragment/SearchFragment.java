@@ -24,7 +24,9 @@ import com.what2mix.domain.Ingredient;
 import com.what2mix.exception.InputSearchException;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SearchFragment extends Fragment {
 
@@ -35,8 +37,8 @@ public class SearchFragment extends Fragment {
     private Button btSearchRecipes;
     private RecyclerView rvSearchResult;
     private List<String> ingredientsNameList = null;
-    private List<Ingredient> ingredientsList = ingredientBO.getAll();
-    private List<Ingredient> ingredientsSearch = new ArrayList<>();
+    private List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
+    private Set<Ingredient> ingredientsSearch = new HashSet<>();
     private LinearLayout ingredientsListView;
 
 
@@ -103,6 +105,7 @@ public class SearchFragment extends Fragment {
             }
 
         }
+
 
     }
 

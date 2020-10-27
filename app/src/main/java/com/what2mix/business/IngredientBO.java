@@ -10,7 +10,7 @@ import java.util.List;
 public class IngredientBO {
     private IngredientDAO dao = new IngredientDAO();
 
-    public List<Ingredient> getAll(){
+    public List<Ingredient> getAllIngredients(){
         List<Ingredient> ingredients = dao.findAll();
         return ingredients;
     }
