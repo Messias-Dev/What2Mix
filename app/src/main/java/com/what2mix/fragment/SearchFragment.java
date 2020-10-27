@@ -132,9 +132,9 @@ public class SearchFragment extends Fragment {
     }
 
     private void assignLayoutElements(View view) {
-        actvIngredients = view.findViewById(R.id.actvIngredients);
-        btAddIngredients = view.findViewById(R.id.ivAddButton);
-        ingredientsListView = view.findViewById(R.id.ingredientsListView);
+        actvIngredients = view.findViewById(R.id.actvIngredientsSearch);
+        btAddIngredients = view.findViewById(R.id.ivAddButtonSearch);
+        ingredientsListView = view.findViewById(R.id.ingredientsListViewSearch);
         btSearchRecipes = view.findViewById(R.id.btSearchRecipes);
         rvSearchResult = view.findViewById(R.id.rvSearchResults);
     }
