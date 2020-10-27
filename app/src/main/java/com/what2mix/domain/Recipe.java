@@ -11,26 +11,26 @@ public class Recipe {
     private String title;
     private String description;
     private LocalDate createdAt;
-    private List<String> ingredients;
+    private List<String> ingredientsId;
 
     public Recipe() {
     }
 
-    public Recipe(String id, String userId, String title, String description, LocalDate createdAt, List<String> ingredients) {
+    public Recipe(String id, String userId, String title, String description, LocalDate createdAt, List<String> ingredientsId) {
         this.id = id;
         this.userId = userId;
         this.title = title;
         this.description = description;
         this.createdAt = createdAt;
-        this.ingredients = ingredients;
+        this.ingredientsId = ingredientsId;
     }
 
-    public Recipe(String userId, String title, String description, LocalDate createdAt, List<String> ingredients) {
+    public Recipe(String userId, String title, String description, LocalDate createdAt, List<String> ingredientsId) {
         this.userId = userId;
         this.title = title;
         this.description = description;
         this.createdAt = createdAt;
-        this.ingredients = ingredients;
+        this.ingredientsId = ingredientsId;
     }
 
     public String getId() {
@@ -73,12 +73,12 @@ public class Recipe {
         this.createdAt = createdAt;
     }
 
-    public List<String> getIngredients() {
-        return ingredients;
+    public List<String> getingredientsId() {
+        return ingredientsId;
     }
 
-    public void setIngredients(List<String> ingredients) {
-        this.ingredients = ingredients;
+    public void setingredientsId(List<String> ingredientsId) {
+        this.ingredientsId = ingredientsId;
     }
 
     @Override
@@ -91,11 +91,11 @@ public class Recipe {
                 getTitle().equals(recipe.getTitle()) &&
                 getDescription().equals(recipe.getDescription()) &&
                 getCreatedAt().equals(recipe.getCreatedAt()) &&
-                getIngredients().equals(recipe.getIngredients());
+                getingredientsId().equals(recipe.getingredientsId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserId(), getTitle(), getDescription(), getCreatedAt(), getIngredients());
+        return Objects.hash(getId(), getUserId(), getTitle(), getDescription(), getCreatedAt(), getingredientsId());
     }
 }

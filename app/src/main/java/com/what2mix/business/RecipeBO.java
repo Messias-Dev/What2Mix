@@ -15,9 +15,7 @@ public class RecipeBO {
 
     private RecipeDAO dao = new RecipeDAO();
 
-    public void register(String id, String title, String description, LocalDate createdAt, List<String> ingredients) throws InputNameException {
-        validate(id, title, description, ingredients);
-        Recipe recipe = new Recipe(id, title, description, createdAt, ingredients);
+    public void register(Recipe recipe) {
         dao.writeNewRecipe(recipe);
     }
 
@@ -29,10 +27,10 @@ public class RecipeBO {
         return recipes;
     }
 
-    private void validate(String id, String title, String description, List<String> ingredients) throws InputNameException {
+    public Recipe validate(String userId, String title, String description, LocalDate createdAt, Set<Ingredient> ingredients) throws InputNameException, InputSearchException {
 
         // FIXME Revisar mensagens
-        if (id.equals(null)) {
+        if (userId.equals(null)) {
             throw new InputNameException("Você não está logado");
         }
         if (title.equals(null) || title.trim().isEmpty()) {
@@ -44,6 +42,17 @@ public class RecipeBO {
         if (ingredients.equals(null)) {
             throw new InputNameException("Selecione ingredientes");
         }
+        validateIngredients(ingredients);
+
+        List<String> ingredientsId = new ArrayList<>();
+
+        for (Ingredient ingredient : ingredients){
+            ingredientsId.add(ingredient.getId());
+        }
+
+        Recipe recipe = new Recipe(userId, title, description, createdAt, ingredientsId);
+
+        return recipe;
     }
 
     private void validateIngredients(Set<Ingredient> ingredients) throws InputSearchException {
