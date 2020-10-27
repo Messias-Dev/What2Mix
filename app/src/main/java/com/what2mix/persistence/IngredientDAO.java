@@ -29,6 +29,7 @@ public class IngredientDAO {
     private Boolean isDuplicated = false;
     private List<String> ingredientsName = null;
     private List<Ingredient> ingredients = null;
+    private Boolean condition = false;
 
 
     public void writeNewIngredient(Context tela, String nameParameter) {
@@ -71,8 +72,7 @@ public class IngredientDAO {
                                 }
                             });
 
-                }
-                else{
+                } else {
                     Toast.makeText(context, "Nome já existe", Toast.LENGTH_LONG).show();
                 }
             }
@@ -104,48 +104,13 @@ public class IngredientDAO {
         });
     }
 
-    public Ingredient findByName(String nameParameter){
-
-        name = nameParameter;
-
-        ValueEventListener ingredientListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("===================== Vai tentar procurar =====================");
-                // Get Post object and use the values to update the UI
-                for (DataSnapshot data : dataSnapshot.getChildren()){
-                    String dataName = data.child("name").getValue().toString();
-                    if (name.equals(dataName)){
-                        ingredient = data.getValue(Ingredient.class);
-                        ingredient.setId(data.getKey());
-
-                        System.out.println("===================== ingredientNome: "+ingredient.getName()+" =====================");
-                        System.out.println("===================== ingredientId: "+ingredient.getId()+" =====================");
-                    }
-
-                }
-                // ...
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-
-                // ...
-            }
-        };
-        database.addValueEventListener(ingredientListener);
-
-        return  ingredient;
-    }
-
-    public List<String> findAllNames(){
+    public List<String> findAllNames() {
         ingredientsName = new ArrayList<>();
 
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()){
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
                     String ingredient = data.child("name").getValue().toString();
                     ingredientsName.add(ingredient);
                 }
@@ -156,6 +121,32 @@ public class IngredientDAO {
 
             }
         });
-        return  ingredientsName;
+        return ingredientsName;
+    }
+
+    public List<Ingredient> findAll() {
+
+        ingredients = new ArrayList<>();
+
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+
+                    ingredient = data.getValue(Ingredient.class);
+                    ingredient.setId(data.getKey());
+                    ingredients.add(ingredient);
+                    ingredient = null;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        return ingredients;
     }
 }

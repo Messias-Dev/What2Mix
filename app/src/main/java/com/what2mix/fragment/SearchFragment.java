@@ -34,9 +34,9 @@ public class SearchFragment extends Fragment {
     private AutoCompleteTextView actvIngredients;
     private Button btSearchRecipes;
     private RecyclerView rvSearchResult;
-    private List<String> ingredientsNameList = new ArrayList<>();
-    private List<Ingredient> ingredientsList = new ArrayList<>();
-
+    private List<String> ingredientsNameList = null;
+    private List<Ingredient> ingredientsList = ingredientBO.getAll();
+    private List<Ingredient> ingredientsSearch = new ArrayList<>();
     private LinearLayout ingredientsListView;
 
 
@@ -62,7 +62,8 @@ public class SearchFragment extends Fragment {
 
     }
 
-    private void getIngredientsOnDatabase() {
+    private void getIngredientsName() {
+        ingredientsNameList = new ArrayList<>();
         ingredientsNameList = ingredientBO.getAllIngredientsNames();
     }
 
@@ -71,34 +72,41 @@ public class SearchFragment extends Fragment {
         actvIngredients.setAdapter(adapter);
     }
 
-    private void setAutoComplete(){
-        getIngredientsOnDatabase();
+    private void setAutoComplete() {
+        getIngredientsName();
         updateAutoComplete();
     }
 
     private void addView() {
+        System.out.println("===================== FRONT : Entrou no addView =====================");
         String ingredientName = actvIngredients.getText().toString();
-        Ingredient ingredient = null;
-        try {
-             ingredient = ingredientBO.getIngredientByName(ingredientName);
 
-        } catch (InputSearchException e) {
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        for (Ingredient ingredient : ingredientsList) {
+            if (ingredient.getName().equals(ingredientName)) {
+
+                // Imprime se encontrou
+                System.out.println("================= ENCONTROU =================");
+                Toast.makeText(getContext(), "Ingrediente selecionado !", Toast.LENGTH_LONG).show();
+
+                // Adiciona na listView
+                View ingredientItem = setView(ingredientName);
+                ingredientsListView.addView(ingredientItem);
+
+                // Adiciona na lista de busca
+                ingredientsSearch.add(ingredient);
+            }
+            else{
+                // Imprime se NÃO encontrou
+                System.out.println("================= ENCONTROU =================");
+                Toast.makeText(getContext(), "Ingrediente não existente !", Toast.LENGTH_LONG).show();
+
+            }
+
         }
-
-        if (ingredient == null){
-            Toast.makeText(getContext(), "Ingrediente nulo", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getContext(), ingredient.getName(), Toast.LENGTH_LONG).show();
-        }
-
-
-        View ingredientItem = setView(ingredientName);
-        ingredientsListView.addView(ingredientItem);
 
     }
 
-    private void removeView(View view){
+    private void removeView(View view) {
         ingredientsListView.removeView(view);
     }
 
@@ -111,7 +119,7 @@ public class SearchFragment extends Fragment {
         ingredientItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               removeView(view);
+                removeView(view);
             }
         });
 
@@ -125,7 +133,6 @@ public class SearchFragment extends Fragment {
         btSearchRecipes = view.findViewById(R.id.btSearchRecipes);
         rvSearchResult = view.findViewById(R.id.rvSearchResults);
     }
-
 
 
 }
