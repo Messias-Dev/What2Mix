@@ -80,15 +80,15 @@ public class SearchFragment extends Fragment {
     }
 
     private void addView() {
+
+        boolean conditional = false;
+
         System.out.println("===================== FRONT : Entrou no addView =====================");
         String ingredientName = actvIngredients.getText().toString();
 
         for (Ingredient ingredient : ingredientsList) {
-            if (ingredient.getName().equals(ingredientName)) {
 
-                // Imprime se encontrou
-                System.out.println("================= ENCONTROU =================");
-                Toast.makeText(getContext(), "Ingrediente selecionado !", Toast.LENGTH_LONG).show();
+            if (ingredient.getName().equals(ingredientName)) {
 
                 // Adiciona na listView
                 View ingredientItem = setView(ingredientName);
@@ -96,16 +96,21 @@ public class SearchFragment extends Fragment {
 
                 // Adiciona na lista de busca
                 ingredientsSearch.add(ingredient);
-            }
-            else{
-                // Imprime se NÃO encontrou
-                System.out.println("================= ENCONTROU =================");
-                Toast.makeText(getContext(), "Ingrediente não existente !", Toast.LENGTH_LONG).show();
-
+                conditional = true;
             }
 
         }
 
+        if (conditional){
+            // Imprime se encontrou
+            System.out.println("================= ENCONTROU =================");
+            Toast.makeText(getContext(), "Ingrediente selecionado !", Toast.LENGTH_LONG).show();
+        }
+        else{
+            // Imprime se NÃO encontrou
+            System.out.println("================= NÃO ENCONTROU =================");
+            Toast.makeText(getContext(), "Ingrediente não existente !", Toast.LENGTH_LONG).show();
+        }
 
     }
 
