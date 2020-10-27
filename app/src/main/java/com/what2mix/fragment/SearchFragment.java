@@ -37,7 +37,6 @@ public class SearchFragment extends Fragment {
     private Button btSearchRecipes;
     private RecyclerView rvSearchResult;
     private List<String> ingredientsNameList = null;
-    private List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
     private Set<Ingredient> ingredientsSearch = new HashSet<>();
     private LinearLayout ingredientsListView;
 
@@ -81,9 +80,9 @@ public class SearchFragment extends Fragment {
 
     private void addView() {
 
+        List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
         boolean conditional = false;
 
-        System.out.println("===================== FRONT : Entrou no addView =====================");
         String ingredientName = actvIngredients.getText().toString();
 
         for (Ingredient ingredient : ingredientsList) {
@@ -103,12 +102,10 @@ public class SearchFragment extends Fragment {
 
         if (conditional){
             // Imprime se encontrou
-            System.out.println("================= ENCONTROU =================");
             Toast.makeText(getContext(), "Ingrediente selecionado !", Toast.LENGTH_LONG).show();
         }
         else{
             // Imprime se NÃO encontrou
-            System.out.println("================= NÃO ENCONTROU =================");
             Toast.makeText(getContext(), "Ingrediente não existente !", Toast.LENGTH_LONG).show();
         }
 
