@@ -44,9 +44,7 @@ public class UserBO {
     private String capitalizeName(String name) {
         String output = "";
 
-        name.toLowerCase();
-
-        String[] textArray = name.trim().split("\\s+");
+        String[] textArray = name.toLowerCase().trim().split("\\s+");
 
         for (int i = 0; i < textArray.length; i++) {
             textArray[i] = textArray[i].substring(0, 1).toUpperCase() + textArray[i].substring(1);
