@@ -34,9 +34,29 @@ public class UserBO {
             throw new InputPasswordException("Senha não pode ser vazia!");
         }
 
-        User user = new User(name, email, password);
+        String nameCapitalized = capitalizeName(name);
+
+        User user = new User(nameCapitalized, email, password);
 
         return user;
+    }
+
+    private String capitalizeName(String name) {
+        String output = "";
+
+        name.toLowerCase();
+
+        String[] textArray = name.trim().split("\\s+");
+
+        for (int i = 0; i < textArray.length; i++) {
+            textArray[i] = textArray[i].substring(0, 1).toUpperCase() + textArray[i].substring(1);
+        }
+
+        for (int i = 0; i < textArray.length; i++) {
+            output = output + textArray[i] + " ";
+        }
+
+        return output.trim();
     }
 
     public User validateLogin(String email, String password) throws InputNameException, InputPasswordException {
@@ -53,7 +73,7 @@ public class UserBO {
         return user;
     }
 
-    public User getLoggedUser(String email){
+    public User getLoggedUser(String email) {
 
         User user = dao.findByEmail(email);
 
