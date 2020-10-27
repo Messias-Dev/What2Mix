@@ -80,35 +80,16 @@ public class SearchFragment extends Fragment {
     }
 
     private void addView() {
-
-        boolean conditional = false;
-
         String ingredientName = actvIngredients.getText().toString();
+        Ingredient ingredient = verifyIngredient(ingredientName);
 
-        for (Ingredient ingredient : ingredientsList) {
-
-            if (ingredient.getName().equals(ingredientName)) {
-
-                // Adiciona na listView
-                View ingredientItem = setView(ingredientName);
-                ingredientsListView.addView(ingredientItem);
-
-                // Adiciona na lista de busca
-                ingredientsSearch.add(ingredient);
-                conditional = true;
-            }
-
+        if (ingredient != null) {
+            View ingredientItem = setView(ingredientName);
+            ingredientsListView.addView(ingredientItem);
+            ingredientsSearch.add(ingredient);
+        } else {
+            Toast.makeText(getContext(), "Ingrediente inválido!", Toast.LENGTH_LONG).show();
         }
-
-        if (conditional){
-            // Imprime se encontrou
-            Toast.makeText(getContext(), "Ingrediente selecionado !", Toast.LENGTH_LONG).show();
-        }
-        else{
-            // Imprime se NÃO encontrou
-            Toast.makeText(getContext(), "Ingrediente não existente !", Toast.LENGTH_LONG).show();
-        }
-
     }
 
     private void removeView(View view) {
@@ -129,6 +110,16 @@ public class SearchFragment extends Fragment {
         });
 
         return ingredientItem;
+    }
+
+    private Ingredient verifyIngredient(String s) {
+        for (Ingredient ingredient : ingredientsList) {
+            if (ingredient.getName().equals(s)){
+                return ingredient;
+            }
+        }
+
+        return null;
     }
 
     private void assignLayoutElements(View view) {
