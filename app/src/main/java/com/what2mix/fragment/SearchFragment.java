@@ -36,10 +36,10 @@ public class SearchFragment extends Fragment {
     private AutoCompleteTextView actvIngredients;
     private Button btSearchRecipes;
     private RecyclerView rvSearchResult;
+    private LinearLayout ingredientsListView;
     private List<String> ingredientsNameList = null;
     private List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
     private Set<Ingredient> ingredientsSearch = new HashSet<>();
-    private LinearLayout ingredientsListView;
 
 
     @Nullable
@@ -80,15 +80,14 @@ public class SearchFragment extends Fragment {
     }
 
     private void addView() {
-        System.out.println("===================== FRONT : Entrou no addView =====================");
+
+        boolean conditional = false;
+
         String ingredientName = actvIngredients.getText().toString();
 
         for (Ingredient ingredient : ingredientsList) {
-            if (ingredient.getName().equals(ingredientName)) {
 
-                // Imprime se encontrou
-                System.out.println("================= ENCONTROU =================");
-                Toast.makeText(getContext(), "Ingrediente selecionado !", Toast.LENGTH_LONG).show();
+            if (ingredient.getName().equals(ingredientName)) {
 
                 // Adiciona na listView
                 View ingredientItem = setView(ingredientName);
@@ -96,16 +95,19 @@ public class SearchFragment extends Fragment {
 
                 // Adiciona na lista de busca
                 ingredientsSearch.add(ingredient);
-            }
-            else{
-                // Imprime se NÃO encontrou
-                System.out.println("================= ENCONTROU =================");
-                Toast.makeText(getContext(), "Ingrediente não existente !", Toast.LENGTH_LONG).show();
-
+                conditional = true;
             }
 
         }
 
+        if (conditional){
+            // Imprime se encontrou
+            Toast.makeText(getContext(), "Ingrediente selecionado !", Toast.LENGTH_LONG).show();
+        }
+        else{
+            // Imprime se NÃO encontrou
+            Toast.makeText(getContext(), "Ingrediente não existente !", Toast.LENGTH_LONG).show();
+        }
 
     }
 
