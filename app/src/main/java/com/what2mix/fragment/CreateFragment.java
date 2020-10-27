@@ -1,21 +1,153 @@
 package com.what2mix.fragment;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.what2mix.R;
+import com.what2mix.business.IngredientBO;
+import com.what2mix.business.RecipeBO;
+import com.what2mix.domain.Ingredient;
+import com.what2mix.domain.Recipe;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 
 public class CreateFragment extends Fragment {
+
+    private Button btCreate;
+    private EditText etRecipeTitle, etRecipeDescription;
+    private ImageView ivAddButtonCreate;
+    private IngredientBO ingredientBO = new IngredientBO();
+    private RecipeBO recipeBO = new RecipeBO();
+    private ImageView btAddIngredients;
+    private AutoCompleteTextView actvIngredients;
+    private LinearLayout ingredientsListView;
+    private List<String> ingredientsNameList = null;
+    private List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
+    private Set<Ingredient> ingredientsSearch = new HashSet<>();
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_create, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        assignLayoutElements(view);
+        setAutoComplete();
+
+        btCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createRecipe();
+            }
+        });
+
+        ivAddButtonCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addView();
+            }
+        });
+
+    }
+
+    private void getIngredientsName() {
+        ingredientsNameList = new ArrayList<>();
+        ingredientsNameList = ingredientBO.getAllIngredientsNames();
+    }
+
+    private void updateAutoComplete() {
+        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ingredientsNameList);
+        actvIngredients.setAdapter(adapter);
+    }
+
+    private void setAutoComplete() {
+        getIngredientsName();
+        updateAutoComplete();
+    }
+
+    private void addView() {
+        String ingredientName = actvIngredients.getText().toString();
+        Ingredient ingredient = verifyIngredient(ingredientName);
+
+        if (ingredient != null) {
+            View ingredientItem = setView(ingredientName);
+            ingredientsListView.addView(ingredientItem);
+            ingredientsSearch.add(ingredient);
+        } else {
+            Toast.makeText(getContext(), "Ingrediente inválido!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void removeView(View view) {
+        ingredientsListView.removeView(view);
+    }
+
+    private View setView(String name) {
+        View ingredientItem = getLayoutInflater().inflate(R.layout.ingredent_item, null, false);
+
+        TextView ingredientName = ingredientItem.findViewById(R.id.tvIngredientName);
+        ingredientName.setText(name);
+
+        ingredientItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeView(view);
+            }
+        });
+
+        return ingredientItem;
+    }
+
+    private Ingredient verifyIngredient(String s) {
+        for (Ingredient ingredient : ingredientsList) {
+            if (ingredient.getName().equals(s)){
+                return ingredient;
+            }
+        }
+
+        return null;
+    }
+
+
+    private void assignLayoutElements(View view) {
+        btCreate = view.findViewById(R.id.btCreateRecipe);
+        ivAddButtonCreate = view.findViewById(R.id.ivAddButtonCreate);
+        etRecipeDescription = view.findViewById(R.id.etRecipeDescription);
+        etRecipeTitle = view.findViewById(R.id.etRecipeTitle);
+        ingredientsListView = view.findViewById(R.id.ingredientsListViewCreate);
+        actvIngredients = view.findViewById(R.id.actvIngredientsCreate);
+    }
+
+
+    private void createRecipe(){
+        Recipe recipe = new Recipe();
+
+        recipe.setTitle(etRecipeTitle.getText().toString());
+        recipe.setDescription(etRecipeDescription.getText().toString());
+
     }
 
 }
