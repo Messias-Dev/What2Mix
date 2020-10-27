@@ -82,7 +82,7 @@ public class RecipeDAO {
                     Recipe recipe = data.getValue(Recipe.class);
 
                     // Verifica se a lista de ingredientes da receita contém a lista de ingredientes da busca
-                    if (ingredients.containsAll(recipe.getIngredients())) {
+                    if (ingredients.containsAll(recipe.getIngredientsId())) {
                         recipes.add(recipe);
 
                     }
