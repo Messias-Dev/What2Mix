@@ -13,6 +13,8 @@ public class Recipe {
     private LocalDate createdAt;
     private List<String> ingredients;
 
+    public Recipe() {
+    }
 
     public Recipe(String id, String userId, String title, String description, LocalDate createdAt, List<String> ingredients) {
         this.id = id;

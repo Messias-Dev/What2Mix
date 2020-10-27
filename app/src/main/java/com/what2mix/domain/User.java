@@ -11,6 +11,9 @@ public class User {
     private String password;
     private List<Recipe> recipes;
 
+    public User() {
+    }
+
     public User(String id, String name, String email, String password, List<Recipe> recipes) {
         this.id = id;
         this.name = name;
