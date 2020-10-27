@@ -36,9 +36,10 @@ public class SearchFragment extends Fragment {
     private AutoCompleteTextView actvIngredients;
     private Button btSearchRecipes;
     private RecyclerView rvSearchResult;
-    private List<String> ingredientsNameList = null;
-    private Set<Ingredient> ingredientsSearch = new HashSet<>();
     private LinearLayout ingredientsListView;
+    private List<String> ingredientsNameList = null;
+    private List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
+    private Set<Ingredient> ingredientsSearch = new HashSet<>();
 
 
     @Nullable
@@ -80,7 +81,6 @@ public class SearchFragment extends Fragment {
 
     private void addView() {
 
-        List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
         boolean conditional = false;
 
         String ingredientName = actvIngredients.getText().toString();
