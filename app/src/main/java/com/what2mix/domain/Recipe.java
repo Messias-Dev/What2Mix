@@ -41,6 +41,14 @@ public class Recipe {
         this.id = id;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -57,14 +65,6 @@ public class Recipe {
         this.description = description;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public LocalDate getCreatedAt() {
         return createdAt;
     }
@@ -73,11 +73,11 @@ public class Recipe {
         this.createdAt = createdAt;
     }
 
-    public List<String> getingredientsId() {
+    public List<String> getIngredientsId() {
         return ingredientsId;
     }
 
-    public void setingredientsId(List<String> ingredientsId) {
+    public void setIngredientsId(List<String> ingredientsId) {
         this.ingredientsId = ingredientsId;
     }
 
@@ -91,11 +91,13 @@ public class Recipe {
                 getTitle().equals(recipe.getTitle()) &&
                 getDescription().equals(recipe.getDescription()) &&
                 getCreatedAt().equals(recipe.getCreatedAt()) &&
-                getingredientsId().equals(recipe.getingredientsId());
+                getIngredientsId().equals(recipe.getIngredientsId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserId(), getTitle(), getDescription(), getCreatedAt(), getingredientsId());
+        return Objects.hash(getId(), getUserId(), getTitle(), getDescription(), getCreatedAt(), getIngredientsId());
     }
+
+
 }
