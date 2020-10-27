@@ -78,4 +78,11 @@ public class UserBO {
         return user;
     }
 
+    public User getUserByEmail(String email){
+
+        User user = dao.findByEmail(email);
+
+        return user;
+    }
+
 }

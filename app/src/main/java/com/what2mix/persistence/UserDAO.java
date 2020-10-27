@@ -39,20 +39,14 @@ public class UserDAO {
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String emailExist = snapshot.child("email").getValue().toString();
-                        if (email.equals(emailExist)) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
 
-                            String name = snapshot.child("name").getValue().toString();
+                    String emailData = data.child("email").getValue().toString();
 
-                            user = new User(name, email, null);
-
-                        }
-
+                    if (email.equals(emailData)) {
+                        user = data.getValue(User.class);
                     }
                 }
-
             }
 
             @Override
