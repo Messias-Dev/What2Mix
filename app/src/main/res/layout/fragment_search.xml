@@ -9,33 +9,33 @@
 
 
     <AutoCompleteTextView
-        android:id="@+id/actvIngredients"
+        android:id="@+id/actvIngredientsSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:hint="Ingredientes"
-        app:layout_constraintEnd_toStartOf="@+id/ivAddButton"
+        app:layout_constraintEnd_toStartOf="@+id/ivAddButtonSearch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:fontFamily="@font/roboto"
         android:textColor="@color/colorText"/>
 
     <ImageView
-        android:id="@+id/ivAddButton"
+        android:id="@+id/ivAddButtonSearch"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="32dp"
         android:scaleType="fitCenter"
         android:tint="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/actvIngredients"
+        app:layout_constraintBottom_toBottomOf="@+id/actvIngredientsSearch"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/actvIngredients"
+        app:layout_constraintTop_toTopOf="@+id/actvIngredientsSearch"
         app:srcCompat="@drawable/ic_add_box" />
 
     <HorizontalScrollView
-        android:id="@+id/horziontalScrollView"
+        android:id="@+id/horziontalScrollViewSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -44,10 +44,10 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/actvIngredients">
+        app:layout_constraintTop_toBottomOf="@+id/actvIngredientsSearch">
 
         <LinearLayout
-            android:id="@+id/ingredientsListView"
+            android:id="@+id/ingredientsListViewSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"></LinearLayout>
@@ -64,7 +64,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btSearchRecipes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horziontalScrollView" />
+        app:layout_constraintTop_toBottomOf="@+id/horziontalScrollViewSearch" />
 
     <Button
         android:id="@+id/btSearchRecipes"
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:text="BUSCAR"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
