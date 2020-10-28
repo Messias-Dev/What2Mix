@@ -25,6 +25,7 @@ import com.what2mix.exception.InputSearchException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ public class SearchFragment extends Fragment {
     private LinearLayout ingredientsListView;
     private List<String> ingredientsNameList = null;
     private List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
-    private Set<Ingredient> ingredientsSearch = new HashSet<>();
+    private Set<Ingredient> ingredientsSearch = new LinkedHashSet<>();
 
 
     @Nullable
@@ -97,7 +98,7 @@ public class SearchFragment extends Fragment {
     }
 
     private View setView(final String name) {
-        View ingredientItem = getLayoutInflater().inflate(R.layout.ingredent_item, null, false);
+        final View ingredientItem = getLayoutInflater().inflate(R.layout.ingredent_item, null, false);
 
         TextView ingredientName = ingredientItem.findViewById(R.id.tvIngredientName);
         ingredientName.setText(name);
@@ -106,7 +107,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 removeView(view);
-                removeIngredientFromList(name);
+                removeIngredientFromList(ingredientItem.getTransitionName());
             }
         });
 
