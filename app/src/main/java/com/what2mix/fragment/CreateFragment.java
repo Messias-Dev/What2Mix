@@ -42,7 +42,7 @@ public class CreateFragment extends Fragment {
     private LinearLayout ingredientsListView;
     private List<String> ingredientsNameList = null;
     private List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
-    private Set<Ingredient> ingredientsSearch = new HashSet<>();
+    private List<Ingredient> ingredientsSearch = new ArrayList<>();
 
 
     @Nullable
@@ -133,11 +133,23 @@ public class CreateFragment extends Fragment {
     }
 
     private void removeIngredientFromList(String s){
+        int i = 0;
+        System.out.println(i);
+
         for (Ingredient ingredient : ingredientsSearch) {
-            if (ingredient.getName().equals(s)) {
-                ingredientsSearch.remove(ingredient);
-            }
+            System.out.println(ingredient.getName());
         }
+
+        for (Ingredient ingredient : ingredientsSearch){
+            if (ingredient.getName().equals(s)){
+                ingredientsSearch.remove(i);
+                System.out.println("Removi o ingrediente " + ingredient.getName() + ", esperado: " + s);
+                return;
+            }
+            i++;
+        }
+
+
     }
 
 

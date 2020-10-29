@@ -125,6 +125,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void removeIngredientFromList(String s){
+        System.out.println(s);
         for (Ingredient ingredient : ingredientsSearch) {
             if (ingredient.getName().equals(s)) {
                 ingredientsSearch.remove(ingredient);
