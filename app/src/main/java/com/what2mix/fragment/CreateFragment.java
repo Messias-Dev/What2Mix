@@ -24,6 +24,8 @@ import com.what2mix.business.IngredientBO;
 import com.what2mix.business.RecipeBO;
 import com.what2mix.domain.Ingredient;
 import com.what2mix.domain.Recipe;
+import com.what2mix.exception.InputNameException;
+import com.what2mix.exception.InputSearchException;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -177,8 +179,15 @@ public class CreateFragment extends Fragment {
         DateFormat formatter = DateFormat.getDateInstance(DateFormat.MEDIUM);
         String createdAt = formatter.format(calendar.getTime());
 
-        // TODO Implementar atributos na ordem: userId, title, description, createdAt, ingredientsId
-        Recipe recipe = new Recipe(null, etRecipeTitle.getText().toString(), etRecipeDescription.getText().toString(), createdAt, null);
+        try {
+            Recipe recipe = recipeBO.validate(null, etRecipeTitle.getText().toString(), etRecipeDescription.getText().toString(), createdAt, ingredientsSearch);
+        } catch (InputNameException e) {
+            // TODO imprimir exceções
+            e.printStackTrace();
+        } catch (InputSearchException e) {
+            // TODO imprimir exceções
+            e.printStackTrace();
+        }
     }
 
 }
