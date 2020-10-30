@@ -19,7 +19,7 @@ public class RecipeBO {
         dao.writeNewRecipe(recipe);
     }
 
-    public List<Recipe> getAllRecipesByIngredients(Set<Ingredient> ingredients) throws InputSearchException {
+    public List<Recipe> getAllRecipesByIngredients(List<Ingredient> ingredients) throws InputSearchException {
 
         validateIngredients(ingredients);
         List<Recipe> recipes = dao.findAllByIngredients(ingredients);
@@ -27,7 +27,7 @@ public class RecipeBO {
         return recipes;
     }
 
-    public Recipe validate(String userId, String title, String description, LocalDate createdAt, Set<Ingredient> ingredients) throws InputNameException, InputSearchException {
+    public Recipe validate(String userId, String title, String description, String createdAt, List<Ingredient> ingredients) throws InputNameException, InputSearchException {
 
         // FIXME Revisar mensagens
         if (userId.equals(null)) {
@@ -55,7 +55,7 @@ public class RecipeBO {
         return recipe;
     }
 
-    private void validateIngredients(Set<Ingredient> ingredients) throws InputSearchException {
+    private void validateIngredients(List<Ingredient> ingredients) throws InputSearchException {
 
         if (ingredients.isEmpty()) {
             throw new InputSearchException("Escolha ao menos um ingrediente !");

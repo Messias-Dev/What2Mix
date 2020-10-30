@@ -28,7 +28,7 @@ public class RecipeDAO {
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("recipes");
     private String userId = null;
     private List<Recipe> recipes = null;
-    private Set<Ingredient> ingredients = null;
+    private List<Ingredient> ingredients = null;
 
 
     public void writeNewRecipe(Recipe recipe) {
@@ -67,7 +67,7 @@ public class RecipeDAO {
 
     }
 
-    public List<Recipe> findAllByIngredients(Set<Ingredient> ingredientsParameter) {
+    public List<Recipe> findAllByIngredients(List<Ingredient> ingredientsParameter) {
         ingredients = ingredientsParameter;
         recipes = new ArrayList<>();
 
