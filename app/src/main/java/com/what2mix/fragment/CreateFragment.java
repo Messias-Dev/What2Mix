@@ -88,6 +88,7 @@ public class CreateFragment extends Fragment {
         updateAutoComplete();
     }
 
+    // TODO Verificação para evitar itens duplicados
     private void addView() {
         String ingredientName = actvIngredients.getText().toString();
         Ingredient ingredient = verifyIngredient(ingredientName);
