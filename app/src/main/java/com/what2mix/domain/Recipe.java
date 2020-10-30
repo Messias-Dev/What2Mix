@@ -10,13 +10,13 @@ public class Recipe {
     private String userId;
     private String title;
     private String description;
-    private LocalDate createdAt;
+    private String createdAt;
     private List<String> ingredientsId;
 
     public Recipe() {
     }
 
-    public Recipe(String id, String userId, String title, String description, LocalDate createdAt, List<String> ingredientsId) {
+    public Recipe(String id, String userId, String title, String description, String createdAt, List<String> ingredientsId) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -25,7 +25,7 @@ public class Recipe {
         this.ingredientsId = ingredientsId;
     }
 
-    public Recipe(String userId, String title, String description, LocalDate createdAt, List<String> ingredientsId) {
+    public Recipe(String userId, String title, String description, String createdAt, List<String> ingredientsId) {
         this.userId = userId;
         this.title = title;
         this.description = description;
@@ -65,11 +65,11 @@ public class Recipe {
         this.description = description;
     }
 
-    public LocalDate getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
