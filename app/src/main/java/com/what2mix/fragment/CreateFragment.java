@@ -1,4 +1,5 @@
 package com.what2mix.fragment;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,10 @@ import com.what2mix.business.RecipeBO;
 import com.what2mix.domain.Ingredient;
 import com.what2mix.domain.Recipe;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -125,7 +129,7 @@ public class CreateFragment extends Fragment {
 
     private Ingredient verifyIngredient(String s) {
         for (Ingredient ingredient : ingredientsList) {
-            if (ingredient.getName().equals(s)){
+            if (ingredient.getName().equals(s)) {
                 return ingredient;
             }
         }
@@ -133,7 +137,7 @@ public class CreateFragment extends Fragment {
         return null;
     }
 
-    private void removeIngredientFromList(String s){
+    private void removeIngredientFromList(String s) {
         int i = 0;
         System.out.println(i);
 
@@ -141,8 +145,8 @@ public class CreateFragment extends Fragment {
             System.out.println(ingredient.getName());
         }
 
-        for (Ingredient ingredient : ingredientsSearch){
-            if (ingredient.getName().equals(s)){
+        for (Ingredient ingredient : ingredientsSearch) {
+            if (ingredient.getName().equals(s)) {
                 ingredientsSearch.remove(i);
                 System.out.println("Removi o ingrediente " + ingredient.getName() + ", esperado: " + s);
                 return;
@@ -164,12 +168,17 @@ public class CreateFragment extends Fragment {
     }
 
 
-    private void createRecipe(){
-        Recipe recipe = new Recipe();
+    private void createRecipe() {
 
-        recipe.setTitle(etRecipeTitle.getText().toString());
-        recipe.setDescription(etRecipeDescription.getText().toString());
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
 
+        DateFormat formatter = DateFormat.getDateInstance(DateFormat.MEDIUM);
+        String createdAt = formatter.format(calendar.getTime());
+
+        // TODO Implementar atributos na ordem: userId, title, description, createdAt, ingredientsId
+        Recipe recipe = new Recipe(null, etRecipeTitle.getText().toString(), etRecipeDescription.getText().toString(), createdAt, null);
     }
 
 }
