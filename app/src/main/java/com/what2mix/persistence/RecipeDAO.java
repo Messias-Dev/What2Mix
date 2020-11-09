@@ -43,17 +43,20 @@ public class RecipeDAO {
         recipes = new ArrayList<>();
 
         database.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
 
+                // Varre cada receita do banco de dados
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+
+                    // Popula o objeto
                     Recipe recipe = data.getValue(Recipe.class);
 
-                    if (userId.equals(recipe.getUserId())) {
+                    // Verifica se o ID de usuário correponde
+                    if (recipe.getUserId().equals(userId)) {
                         recipes.add(recipe);
-                    }
 
+                    }
                 }
             }
 
@@ -63,7 +66,7 @@ public class RecipeDAO {
             }
         });
 
-        return null;
+        return recipes;
 
     }
 
@@ -81,7 +84,7 @@ public class RecipeDAO {
                     // Popula o objeto
                     Recipe recipe = data.getValue(Recipe.class);
 
-                    // Verifica se a lista de ingredientes da receita contém a lista de ingredientes da busca
+                    // Verifica se a lista de ingredientes da busca contém a lista de ingredientes da receita
                     if (ingredients.containsAll(recipe.getIngredientsId())) {
                         recipes.add(recipe);
 

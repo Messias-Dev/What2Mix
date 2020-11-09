@@ -27,6 +27,13 @@ public class RecipeBO {
         return recipes;
     }
 
+    public List<Recipe> getAllRecipesByUser(String userId) throws InputSearchException {
+
+        List<Recipe> recipes = dao.findAllByUserId(userId);
+
+        return recipes;
+    }
+
     public Recipe validate(String userId, String title, String description, String createdAt, List<Ingredient> ingredients) throws InputNameException, InputSearchException {
 
         // FIXME Revisar mensagens
