@@ -43,7 +43,6 @@ public class CreateFragment extends Fragment {
     private ImageView ivAddButtonCreate;
     private IngredientBO ingredientBO = new IngredientBO();
     private RecipeBO recipeBO = new RecipeBO();
-    private ImageView btAddIngredients;
     private AutoCompleteTextView actvIngredients;
     private LinearLayout ingredientsListView;
     private List<String> ingredientsNameList = null;
