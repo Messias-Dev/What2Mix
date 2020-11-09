@@ -15,7 +15,21 @@ public class RecipeBO {
 
     private RecipeDAO dao = new RecipeDAO();
 
-    public void register(Recipe recipe) {
+    public void register(String userId, String title, String description, String createdAt, List<Ingredient> ingredients) throws InputSearchException, InputNameException {
+
+        // Valida parâmetros
+        validate(userId, title, description, createdAt, ingredients);
+
+        // Lista para ID de ingredientes
+        List<String> ingredientsId = new ArrayList<>();
+
+        for (Ingredient ingredient : ingredients){
+            ingredientsId.add(ingredient.getId());
+        }
+
+        // Cria o objeto
+        Recipe recipe = new Recipe(userId, title, description, createdAt, ingredientsId);
+
         dao.writeNewRecipe(recipe);
     }
 
@@ -34,7 +48,7 @@ public class RecipeBO {
         return recipes;
     }
 
-    public Recipe validate(String userId, String title, String description, String createdAt, List<Ingredient> ingredients) throws InputNameException, InputSearchException {
+    public void validate(String userId, String title, String description, String createdAt, List<Ingredient> ingredients) throws InputNameException, InputSearchException {
 
         // FIXME Revisar mensagens
         if (userId.equals(null)) {
@@ -51,15 +65,6 @@ public class RecipeBO {
         }
         validateIngredients(ingredients);
 
-        List<String> ingredientsId = new ArrayList<>();
-
-        for (Ingredient ingredient : ingredients){
-            ingredientsId.add(ingredient.getId());
-        }
-
-        Recipe recipe = new Recipe(userId, title, description, createdAt, ingredientsId);
-
-        return recipe;
     }
 
     private void validateIngredients(List<Ingredient> ingredients) throws InputSearchException {
