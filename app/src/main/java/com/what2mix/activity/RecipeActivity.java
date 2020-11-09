@@ -9,12 +9,13 @@ import android.widget.TextView;
 
 
 import com.what2mix.R;
+import com.what2mix.domain.Recipe;
 
 import java.util.List;
 
 public class RecipeActivity extends AppCompatActivity {
 
-    private TextView tvRecipeTitle, tcRecipeAuthor, tvRecipeDate, tvRecipeDescription;
+    private TextView tvRecipeTitle, tvRecipeAuthor, tvRecipeDate, tvRecipeDescription;
     private LinearLayout ingredientsListView;
 
     @Override
@@ -28,7 +29,7 @@ public class RecipeActivity extends AppCompatActivity {
 
     private void assignLayoutElements() {
         tvRecipeTitle = findViewById(R.id.tvRecipeTitle);
-        tcRecipeAuthor = findViewById(R.id.tvRecipeAuthor);
+        tvRecipeAuthor = findViewById(R.id.tvRecipeAuthor);
         tvRecipeDate = findViewById(R.id.tvRecipeDate);
         tvRecipeDescription = findViewById(R.id.tvRecipeDescriptionTitle);
         ingredientsListView = findViewById(R.id.ingredientsListViewRecipe);
@@ -47,8 +48,20 @@ public class RecipeActivity extends AppCompatActivity {
     private void addIngredientList (List<String> ingredientList) {
         for (String s : ingredientList) {
             View ingredientItem = setView(s);
-            
+
             ingredientsListView.addView(ingredientItem);
         }
+    }
+
+    private void setRecipeContent (Recipe recipe) {
+        String title = recipe.getTitle();
+        String author = recipe.getUserId();
+        String date = recipe.getCreatedAt();
+        String description = recipe.getDescription();
+
+        tvRecipeTitle.setText(title);
+        tvRecipeDescription.setText(description);
+        tvRecipeAuthor.setText(author);
+        tvRecipeDate.setText(date);
     }
 }
