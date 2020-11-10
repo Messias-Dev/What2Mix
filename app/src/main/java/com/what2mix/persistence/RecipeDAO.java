@@ -51,6 +51,7 @@ public class RecipeDAO {
 
                     // Popula o objeto
                     Recipe recipe = data.getValue(Recipe.class);
+                    recipe.setId(data.getKey());
 
                     // Verifica se o ID de usuário correponde
                     if (recipe.getUserId().equals(userId)) {
@@ -83,6 +84,7 @@ public class RecipeDAO {
 
                     // Popula o objeto
                     Recipe recipe = data.getValue(Recipe.class);
+                    recipe.setId(data.getKey());
 
                     // Verifica se a lista de ingredientes da busca contém a lista de ingredientes da receita
                     if (ingredients.containsAll(recipe.getIngredientsId())) {
