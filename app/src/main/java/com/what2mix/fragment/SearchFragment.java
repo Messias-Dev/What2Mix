@@ -89,6 +89,7 @@ public class SearchFragment extends Fragment {
             View ingredientItem = setView(ingredientName);
             ingredientsListView.addView(ingredientItem);
             ingredientsSearch.add(ingredient);
+            actvIngredients.setText("");
         } else {
             Toast.makeText(getContext(), "Ingrediente inválido!", Toast.LENGTH_LONG).show();
         }

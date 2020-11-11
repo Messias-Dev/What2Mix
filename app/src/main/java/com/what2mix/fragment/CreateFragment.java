@@ -17,13 +17,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.what2mix.R;
 import com.what2mix.business.IngredientBO;
 import com.what2mix.business.RecipeBO;
+import com.what2mix.business.UserBO;
 import com.what2mix.domain.Ingredient;
-import com.what2mix.domain.Recipe;
+import com.what2mix.domain.User;
 import com.what2mix.exception.InputNameException;
 import com.what2mix.exception.InputSearchException;
 
@@ -31,9 +32,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 public class CreateFragment extends Fragment {
@@ -43,11 +42,12 @@ public class CreateFragment extends Fragment {
     private ImageView ivAddButtonCreate;
     private IngredientBO ingredientBO = new IngredientBO();
     private RecipeBO recipeBO = new RecipeBO();
+    private UserBO userBO = new UserBO();
     private AutoCompleteTextView actvIngredients;
     private LinearLayout ingredientsListView;
     private List<String> ingredientsNameList = null;
     private List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
-    private List<Ingredient> ingredientsSearch = new ArrayList<>();
+    private List<Ingredient> ingredientsCreate = new ArrayList<>();
 
 
     @Nullable
@@ -101,7 +101,8 @@ public class CreateFragment extends Fragment {
         if (ingredient != null) {
             View ingredientItem = setView(ingredientName);
             ingredientsListView.addView(ingredientItem);
-            ingredientsSearch.add(ingredient);
+            ingredientsCreate.add(ingredient);
+            actvIngredients.setText("");
         } else {
             Toast.makeText(getContext(), "Ingrediente inválido!", Toast.LENGTH_LONG).show();
         }
@@ -142,13 +143,13 @@ public class CreateFragment extends Fragment {
         int i = 0;
         System.out.println(i);
 
-        for (Ingredient ingredient : ingredientsSearch) {
+        for (Ingredient ingredient : ingredientsCreate) {
             System.out.println(ingredient.getName());
         }
 
-        for (Ingredient ingredient : ingredientsSearch) {
+        for (Ingredient ingredient : ingredientsCreate) {
             if (ingredient.getName().equals(s)) {
-                ingredientsSearch.remove(i);
+                ingredientsCreate.remove(i);
                 System.out.println("Removi o ingrediente " + ingredient.getName() + ", esperado: " + s);
                 return;
             }
@@ -168,6 +169,14 @@ public class CreateFragment extends Fragment {
         actvIngredients = view.findViewById(R.id.actvIngredientsCreate);
     }
 
+    private void clearAllInputs() {
+        etRecipeDescription.setText("");
+        etRecipeTitle.setText("");
+        ingredientsCreate = new ArrayList<>();
+        ingredientsListView.removeAllViews();
+
+    }
+
 
     private void createRecipe() {
 
@@ -178,8 +187,12 @@ public class CreateFragment extends Fragment {
         DateFormat formatter = DateFormat.getDateInstance(DateFormat.MEDIUM);
         String createdAt = formatter.format(calendar.getTime());
 
+        User user = userBO.getLoggedUser(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        System.out.println(user);
+
         try {
-            Recipe recipe = recipeBO.validate(null, etRecipeTitle.getText().toString(), etRecipeDescription.getText().toString(), createdAt, ingredientsSearch);
+            recipeBO.register("1234", etRecipeTitle.getText().toString(), etRecipeDescription.getText().toString(), createdAt, ingredientsCreate);
+            clearAllInputs();
         } catch (InputNameException e) {
             // TODO imprimir exceções
             e.printStackTrace();
