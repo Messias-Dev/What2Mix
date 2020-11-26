@@ -81,13 +81,16 @@ public class RecipeDAO {
 
                 // Varre cada receita do banco de dados
                 for (DataSnapshot data : dataSnapshot.getChildren()){
-
                     // Popula o objeto
                     Recipe recipe = data.getValue(Recipe.class);
                     recipe.setId(data.getKey());
+                    System.out.println(recipe.getTitle());
+                    System.out.println(recipe.getIngredientsId().toString());
+                    System.out.println(ingredients.toString());
 
                     // Verifica se a lista de ingredientes da busca contém a lista de ingredientes da receita
                     if (ingredients.containsAll(recipe.getIngredientsId())) {
+                        System.out.println("Achei");
                         recipes.add(recipe);
 
                     }

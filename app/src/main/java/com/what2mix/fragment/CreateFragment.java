@@ -23,6 +23,7 @@ import com.what2mix.R;
 import com.what2mix.business.IngredientBO;
 import com.what2mix.business.RecipeBO;
 import com.what2mix.business.UserBO;
+import com.what2mix.config.FirebaseConfig;
 import com.what2mix.domain.Ingredient;
 import com.what2mix.domain.User;
 import com.what2mix.exception.InputNameException;
@@ -48,6 +49,8 @@ public class CreateFragment extends Fragment {
     private List<String> ingredientsNameList = null;
     private List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
     private List<Ingredient> ingredientsCreate = new ArrayList<>();
+    private FirebaseAuth auth = FirebaseConfig.getFirebaseAuth();
+    private User user;
 
 
     @Nullable
@@ -60,6 +63,7 @@ public class CreateFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         assignLayoutElements(view);
+        getUserId();
         setAutoComplete();
 
         btCreate.setOnClickListener(new View.OnClickListener() {
@@ -187,11 +191,8 @@ public class CreateFragment extends Fragment {
         DateFormat formatter = DateFormat.getDateInstance(DateFormat.MEDIUM);
         String createdAt = formatter.format(calendar.getTime());
 
-        User user = userBO.getLoggedUser(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-        System.out.println(user);
-
         try {
-            recipeBO.register("1234", etRecipeTitle.getText().toString(), etRecipeDescription.getText().toString(), createdAt, ingredientsCreate);
+            recipeBO.register(user.getId(), etRecipeTitle.getText().toString(), etRecipeDescription.getText().toString(), createdAt, ingredientsCreate);
             clearAllInputs();
         } catch (InputNameException e) {
             // TODO imprimir exceções
@@ -200,6 +201,12 @@ public class CreateFragment extends Fragment {
             // TODO imprimir exceções
             e.printStackTrace();
         }
+    }
+
+    private void getUserId() {
+        String email = auth.getCurrentUser().getEmail();
+
+        user = new UserBO().getUserByEmail(email);
     }
 
 }

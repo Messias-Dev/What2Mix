@@ -1,5 +1,7 @@
 package com.what2mix.business;
 
+import android.os.AsyncTask;
+
 import com.what2mix.domain.Ingredient;
 import com.what2mix.exception.InputSearchException;
 import com.what2mix.persistence.IngredientDAO;

@@ -21,8 +21,10 @@ import com.what2mix.R;
 import com.what2mix.business.IngredientBO;
 import com.what2mix.business.RecipeBO;
 import com.what2mix.domain.Ingredient;
+import com.what2mix.domain.Recipe;
 import com.what2mix.exception.InputSearchException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -41,6 +43,7 @@ public class SearchFragment extends Fragment {
     private List<String> ingredientsNameList = null;
     private List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
     private List<Ingredient> ingredientsSearch = new ArrayList<>();
+    private List<Recipe> recipesFound = new ArrayList<>();
 
 
     @Nullable
@@ -62,6 +65,27 @@ public class SearchFragment extends Fragment {
                 addView();
             }
         });
+
+        btSearchRecipes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getRecipes();
+            }
+        });
+
+    }
+
+    private void getRecipes(){
+        try {
+            recipesFound = new RecipeBO().getAllRecipesByIngredients(ingredientsSearch);
+            System.out.println("Tentei");
+        } catch (InputSearchException e) {
+            e.printStackTrace();
+        }
+
+        for (Recipe recipe : recipesFound) {
+            System.out.println(recipe.getTitle());
+        }
 
     }
 

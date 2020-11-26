@@ -20,7 +20,7 @@ public class UserDAO {
 
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("users");
     private String email = null;
-    private User user = null;
+    private User user = new User();
 
     public void writeNewUser(User userParameter) {
 
@@ -32,7 +32,7 @@ public class UserDAO {
     }
 
     // FIXME melhorar arquitetura (deixar para final)
-    public User findByEmail(String emailParameter) {
+    public User findByEmail(final String emailParameter) {
 
         email = emailParameter;
 
@@ -40,11 +40,10 @@ public class UserDAO {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-
-                    String emailData = data.child("email").getValue().toString();
-
-                    if (email.equals(emailData)) {
-                        user = data.getValue(User.class);
+                    if (email.equals(data.child("email").getValue())) {
+                        user.setName(data.child("name").getValue().toString());
+                        user.setEmail(data.child("email").getValue().toString());
+                        user.setId(data.getKey());
                     }
                 }
             }
