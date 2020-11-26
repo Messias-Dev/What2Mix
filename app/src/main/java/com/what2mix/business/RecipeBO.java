@@ -36,7 +36,15 @@ public class RecipeBO {
     public List<Recipe> getAllRecipesByIngredients(List<Ingredient> ingredients) throws InputSearchException {
 
         validateIngredients(ingredients);
-        List<Recipe> recipes = dao.findAllByIngredients(ingredients);
+
+        // Lista para ID de ingredientes
+        List<String> ingredientsId = new ArrayList<>();
+
+        for (Ingredient ingredient : ingredients){
+            ingredientsId.add(ingredient.getId());
+        }
+
+        List<Recipe> recipes = dao.findAllByIngredients(ingredientsId);
 
         return recipes;
     }

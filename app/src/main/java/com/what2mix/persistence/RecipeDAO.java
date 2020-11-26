@@ -28,7 +28,7 @@ public class RecipeDAO {
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("recipes");
     private String userId = null;
     private List<Recipe> recipes = null;
-    private List<Ingredient> ingredients = null;
+    private List<String> ingredientsId = null;
 
 
     public void writeNewRecipe(Recipe recipe) {
@@ -71,8 +71,8 @@ public class RecipeDAO {
 
     }
 
-    public List<Recipe> findAllByIngredients(List<Ingredient> ingredientsParameter) {
-        ingredients = ingredientsParameter;
+    public List<Recipe> findAllByIngredients(List<String> ingredientsParameter) {
+        ingredientsId = ingredientsParameter;
         recipes = new ArrayList<>();
 
         database.addValueEventListener(new ValueEventListener() {
@@ -86,10 +86,10 @@ public class RecipeDAO {
                     recipe.setId(data.getKey());
                     System.out.println(recipe.getTitle());
                     System.out.println(recipe.getIngredientsId().toString());
-                    System.out.println(ingredients.toString());
+                    System.out.println(ingredientsId);
 
                     // Verifica se a lista de ingredientes da busca contém a lista de ingredientes da receita
-                    if (ingredients.containsAll(recipe.getIngredientsId())) {
+                    if (ingredientsId.containsAll(recipe.getIngredientsId())) {
                         System.out.println("Achei");
                         recipes.add(recipe);
 
