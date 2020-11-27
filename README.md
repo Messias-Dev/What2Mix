@@ -37,9 +37,12 @@ A arquitetura utilizada foi a Layers.
 ### Autores 
 
 * [Alexandre Karl](https://github.com/alexandrekva) - Desenvolvedor Front-End
-* [Messias Nunesmaia](https://github.com/Messias-Dev) - Desenvolvedor Back-End
 * [Ary Sault](https://github.com/arysault) - Documentação
 * [Gabriel Veloso](https://github.com/Gabrielbveloso) - Documentação
+* [Messias Nunesmaia](https://github.com/Messias-Dev) - Desenvolvedor Back-End
+
+### Licença
+Este projeto está sob a licença (MIT) - veja o arquivo [LICENSE.md](https://github.com/Messias-Dev/What2Mix/edit/master/LICENSE.md) para detalhes.
 
 
 
