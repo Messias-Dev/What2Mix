@@ -5,34 +5,39 @@ import java.util.Objects;
 
 public class User {
 
+    // Atributos
     private String id;
     private String name;
     private String email;
     private String password;
     private List<Recipe> recipes;
 
+    // Construtor geral (para Firebase)
     public User() {
     }
 
-    public User(String id, String name, String email, String password, List<Recipe> recipes) {
+    // Construtor para consulta no banco de dados
+    public User(String id, String name, String email, List<Recipe> recipes) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.password = password;
         this.recipes = recipes;
     }
 
+    // Construtor para registro no banco de dados
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
+    // Construtor para login
     public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
+    // Getters and Setters
     public String getId() {
         return id;
     }
@@ -73,6 +78,7 @@ public class User {
         this.recipes = recipes;
     }
 
+    // Equals and HashCode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -90,6 +96,7 @@ public class User {
         return Objects.hash(getId(), getName(), getEmail(), getPassword(), getRecipes());
     }
 
+    // toString
     @Override
     public String toString() {
         return "User{" +

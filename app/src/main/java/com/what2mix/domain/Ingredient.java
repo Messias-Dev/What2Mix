@@ -4,17 +4,21 @@ import java.util.Objects;
 
 public class Ingredient {
 
+    // Atributos
     private String name;
     private String id;
 
+    // Construtor geral (para Firebase)
     public Ingredient() {
     }
 
+    // Construtor
     public Ingredient(String name, String id) {
         this.name = name;
         this.id = id;
     }
 
+    // Getters and Setters
     public Ingredient(String name) {
         this.name = name;
     }
@@ -35,6 +39,7 @@ public class Ingredient {
         this.id = id;
     }
 
+    // Equals and HashCode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,6 +54,7 @@ public class Ingredient {
         return Objects.hash(getName(), getId());
     }
 
+    // toString
     @Override
     public String toString() {
         return "Ingredients{" +

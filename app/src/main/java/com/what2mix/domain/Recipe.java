@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class Recipe {
 
+    // Atributos
     private String id;
     private String userId;
     private String title;
@@ -13,9 +14,11 @@ public class Recipe {
     private String createdAt;
     private List<String> ingredientsId;
 
+    // Construtor geral (para Firebase)
     public Recipe() {
     }
 
+    // Construtor para consulta no banco de dados
     public Recipe(String id, String userId, String title, String description, String createdAt, List<String> ingredientsId) {
         this.id = id;
         this.userId = userId;
@@ -25,6 +28,7 @@ public class Recipe {
         this.ingredientsId = ingredientsId;
     }
 
+    // Construtor para registro no banco de dados
     public Recipe(String userId, String title, String description, String createdAt, List<String> ingredientsId) {
         this.userId = userId;
         this.title = title;
@@ -33,6 +37,7 @@ public class Recipe {
         this.ingredientsId = ingredientsId;
     }
 
+    // Getters and Setters
     public String getId() {
         return id;
     }
@@ -81,6 +86,7 @@ public class Recipe {
         this.ingredientsId = ingredientsId;
     }
 
+    // Equals and HashCode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -99,5 +105,16 @@ public class Recipe {
         return Objects.hash(getId(), getUserId(), getTitle(), getDescription(), getCreatedAt(), getIngredientsId());
     }
 
-
+    // toString
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", ingredientsId=" + ingredientsId +
+                '}';
+    }
 }

@@ -8,20 +8,17 @@ import com.what2mix.persistence.UserDAO;
 
 public class UserBO {
 
+    // Referência a persistência
     private UserDAO dao = new UserDAO();
 
+    // Registra usuário via persistência
     public void register(User user) {
 
         dao.writeNewUser(user);
 
     }
 
-    // FIXME Pensar melhor na arquitetura (deixar para final)
-//    public Boolean login(String email, String password) throws InputNameException, InputPasswordException {
-//
-//        return true;
-//    }
-
+    // Valida parâmetros para criação do usuário
     public User validateRegister(String name, String email, String password) throws InputNameException, InputEmailException, InputPasswordException {
         if (name.equals(null) || name.trim().isEmpty()) {
             throw new InputNameException("Nome não pode ser vazio!");
@@ -34,13 +31,16 @@ public class UserBO {
             throw new InputPasswordException("Senha não pode ser vazia!");
         }
 
+        // Capitaliza string anterior e atribui a string nova
         String nameCapitalized = capitalizeName(name);
 
+        // Cria objeto
         User user = new User(nameCapitalized, email, password);
 
         return user;
     }
 
+    // Capitaliza nome de usuário
     private String capitalizeName(String name) {
         String output = "";
 
@@ -57,6 +57,7 @@ public class UserBO {
         return output.trim();
     }
 
+    // Valida parâmetros para login do usuário
     public User validateLogin(String email, String password) throws InputNameException, InputPasswordException {
 
         if (password.equals(null) || password.trim().isEmpty()) {
@@ -67,17 +68,13 @@ public class UserBO {
             throw new InputNameException("E-mail não pode ser vazio!");
         }
 
+        // Cria objeto
         User user = new User(email, password);
-        return user;
-    }
-
-    public User getLoggedUser(String email) {
-
-        User user = dao.findByEmail(email);
 
         return user;
     }
 
+    // Pega usuário por e-mail via persistência
     public User getUserByEmail(String email){
 
         User user = dao.findByEmail(email);

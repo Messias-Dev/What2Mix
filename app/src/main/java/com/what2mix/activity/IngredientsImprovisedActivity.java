@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.what2mix.R;
 import com.what2mix.persistence.IngredientDAO;
 
+// Classe improvisada para implementação de ingredientes no banco de dados
 public class IngredientsImprovisedActivity extends AppCompatActivity {
 
     private IngredientDAO dao = new IngredientDAO();

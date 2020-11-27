@@ -13,8 +13,10 @@ import java.util.Set;
 
 public class RecipeBO {
 
+    // Referência a persistência
     private RecipeDAO dao = new RecipeDAO();
 
+    // Registra receita via persistência
     public void register(String userId, String title, String description, String createdAt, List<Ingredient> ingredients) throws InputSearchException, InputNameException {
 
         // Valida parâmetros
@@ -33,6 +35,7 @@ public class RecipeBO {
         dao.writeNewRecipe(recipe);
     }
 
+    // Pega todas as receitas por ingrediente via persistência
     public List<Recipe> getAllRecipesByIngredients(List<Ingredient> ingredients) throws InputSearchException {
 
         validateIngredients(ingredients);
@@ -49,6 +52,7 @@ public class RecipeBO {
         return recipes;
     }
 
+    // Pega todas as receitas por usuário via persistência
     public List<Recipe> getAllRecipesByUser(String userId) throws InputSearchException {
 
         List<Recipe> recipes = dao.findAllByUserId(userId);
@@ -56,6 +60,7 @@ public class RecipeBO {
         return recipes;
     }
 
+    // Valida parâmetros para criação da receita
     public void validate(String userId, String title, String description, String createdAt, List<Ingredient> ingredients) throws InputNameException, InputSearchException {
 
         // FIXME Revisar mensagens
@@ -75,6 +80,7 @@ public class RecipeBO {
 
     }
 
+    // Valida especificamente ingredientes da receita
     private void validateIngredients(List<Ingredient> ingredients) throws InputSearchException {
 
         if (ingredients.isEmpty()) {

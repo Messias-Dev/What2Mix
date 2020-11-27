@@ -30,12 +30,13 @@ public class RecipeDAO {
     private List<Recipe> recipes = null;
     private List<String> ingredientsId = null;
 
-
+    // Registra receita no banco de dados
     public void writeNewRecipe(Recipe recipe) {
 
         database.push().setValue(recipe);
     }
 
+    // Consulta todas as receitas por id de usuário no banco de dados
     //TODO Testar e escolher qual melhor método
     public List<Recipe> findAllByUserId(String userIdParameter) {
 
@@ -49,12 +50,16 @@ public class RecipeDAO {
                 // Varre cada receita do banco de dados
                 for (DataSnapshot data : dataSnapshot.getChildren()){
 
-                    // Popula o objeto
+                    // Resgata o objeto do banco de dados e popula o com atributos de nome igual ao construtor
                     Recipe recipe = data.getValue(Recipe.class);
+
+                    // Seta o id
                     recipe.setId(data.getKey());
 
                     // Verifica se o ID de usuário correponde
                     if (recipe.getUserId().equals(userId)) {
+
+                        // Adiciona receita na lista
                         recipes.add(recipe);
 
                     }
@@ -71,6 +76,7 @@ public class RecipeDAO {
 
     }
 
+    // Consulta todas as receitas por id de usuário no banco de dados
     public List<Recipe> findAllByIngredients(List<String> ingredientsParameter) {
         ingredientsId = ingredientsParameter;
         recipes = new ArrayList<>();
@@ -81,8 +87,11 @@ public class RecipeDAO {
 
                 // Varre cada receita do banco de dados
                 for (DataSnapshot data : dataSnapshot.getChildren()){
-                    // Popula o objeto
+
+                    // Resgata o objeto do banco de dados e popula o com atributos de nome igual ao construtor
                     Recipe recipe = data.getValue(Recipe.class);
+
+                    // Seta o id
                     recipe.setId(data.getKey());
                     System.out.println(recipe.getTitle());
                     System.out.println(recipe.getIngredientsId().toString());
@@ -91,6 +100,8 @@ public class RecipeDAO {
                     // Verifica se a lista de ingredientes da busca contém a lista de ingredientes da receita
                     if (ingredientsId.containsAll(recipe.getIngredientsId())) {
                         System.out.println("Achei");
+
+                        // Adiciona na lista
                         recipes.add(recipe);
 
                     }

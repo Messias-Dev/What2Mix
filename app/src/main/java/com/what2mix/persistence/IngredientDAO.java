@@ -31,7 +31,7 @@ public class IngredientDAO {
     private List<Ingredient> ingredients = null;
     private Boolean condition = false;
 
-
+    // Código improvisado para registro de ingredientes no banco de dados
     public void writeNewIngredient(Context tela, String nameParameter) {
         name = nameParameter;
         context = tela;
@@ -86,32 +86,21 @@ public class IngredientDAO {
 
     }
 
-    public void readAllIngredients() {
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        //TODO Pegar todos os ingredientes sem critério
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
+    // Consulta de todos os nomes de ingredientes no banco de dados
     public List<String> findAllNames() {
         ingredientsName = new ArrayList<>();
 
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                // Varre cada ingrediente no banco de dados
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
+
+                    // Resgata especificamente o atributo "name"
                     String ingredient = data.child("name").getValue().toString();
+
+                    // Adiciona o atributo em lista
                     ingredientsName.add(ingredient);
                 }
             }
@@ -124,6 +113,7 @@ public class IngredientDAO {
         return ingredientsName;
     }
 
+    // Consulta de todos os ingredientes no banco de dados
     public List<Ingredient> findAll() {
 
         ingredients = new ArrayList<>();
@@ -131,11 +121,19 @@ public class IngredientDAO {
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                // Varre cada ingrediente no banco de dados
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
 
+                    // Resgata o objeto do banco de dados e popula o com atributos de nome igual ao construtor
                     ingredient = data.getValue(Ingredient.class);
+
+                    // Seta o id
                     ingredient.setId(data.getKey());
+
+                    // Adiciona objeto em lista
                     ingredients.add(ingredient);
+
                     ingredient = null;
                 }
             }
