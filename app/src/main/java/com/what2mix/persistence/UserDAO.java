@@ -52,7 +52,8 @@ public class UserDAO {
                     if (email.equals(data.child("email").getValue())) {
 
                         // Resgata o objeto do banco de dados e popula o com atributos de nome igual ao construtor
-                        user = data.getValue(User.class);
+                        user.setName(data.child("name").getValue().toString());
+                        user.setEmail(data.child("email").getValue().toString());
 
                         // Seta o id
                         user.setId(data.getKey());
