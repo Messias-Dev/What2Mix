@@ -31,6 +31,9 @@ A arquitetura utilizada foi a Layers.
   * exception
   * domain
   * persistence
+* Banco de dados
+  * Real-time database
+  
 
 ---
 
