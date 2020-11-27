@@ -4,7 +4,7 @@
 What2Mix um aplicativo Mobile com foco consultas rápidas de receitas culinárias. É possívei criar e pesquisar comidas/bebidas por uma vasta lista de ingredientes.
 
 ## OBJETIVO 
-Alcançar pessoas que eventualmente tem ingredientes estocados "o que" nem "como" fazê-lo.
+Alcançar pessoas que eventualmente tem ingredientes estocados mas não sabem "o que" nem "como" fazê-lo.
 
 ---
 
