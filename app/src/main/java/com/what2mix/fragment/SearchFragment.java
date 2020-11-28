@@ -1,9 +1,11 @@
 package com.what2mix.fragment;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -16,6 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -23,9 +27,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.what2mix.R;
+import com.what2mix.adapter.AdapterRecipe;
 import com.what2mix.business.IngredientBO;
 import com.what2mix.business.RecipeBO;
 import com.what2mix.config.FirebaseConfig;
+import com.what2mix.domain.Recipe;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -43,7 +49,9 @@ public class SearchFragment extends Fragment {
 
     private List<String> ingredientsList = new ArrayList<>();
     private List<String> selectedIngredientsList = new ArrayList<>();
-    private ArrayAdapter adapter;
+    private List<Recipe> recipesFound = new ArrayList<>();
+    private ArrayAdapter arrayAdapter;
+    private AdapterRecipe adapterRecipe;
 
 
 
@@ -59,13 +67,14 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         assignLayoutElements(view);
         getIngredientsName();
+        setRecyclerViewer();
 
         actvIngredients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                String selectedIngredient = adapter.getItem(position).toString();
+                String selectedIngredient = arrayAdapter.getItem(position).toString();
                 addIngredient(selectedIngredient);
             }
         });
@@ -74,6 +83,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getRecipesByIngredients();
+                System.out.println(recipesFound.toString());
             }
         });
 
@@ -90,9 +100,6 @@ public class SearchFragment extends Fragment {
         }
 
         actvIngredients.setText("");
-        for (String s : selectedIngredientsList) {
-            System.out.println(s);
-        }
     }
 
     private View setIngredientView(final String selectedIngredient) {
@@ -115,14 +122,25 @@ public class SearchFragment extends Fragment {
         return null;
     }
 
+    private void setRecyclerViewer() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        adapterRecipe = new AdapterRecipe(recipesFound);
+
+        rvSearchResult.setLayoutManager(layoutManager);
+        rvSearchResult.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        rvSearchResult.setHasFixedSize(true);
+        rvSearchResult.setAdapter(adapterRecipe);
+    }
+
+
     private void removeIngredient(View view, String ingredient) {
         ingredientsListView.removeView(view);
         selectedIngredientsList.remove(ingredient);
     }
 
     private void updateAutoComplete () {
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ingredientsList);
-        actvIngredients.setAdapter(adapter);
+        arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ingredientsList);
+        actvIngredients.setAdapter(arrayAdapter);
         actvIngredients.setText("");
         actvIngredients.setEnabled(true);
     }
@@ -148,11 +166,30 @@ public class SearchFragment extends Fragment {
 
     private void getRecipesByIngredients() {
         DatabaseReference recipesRef = FirebaseConfig.getFirebaseReference().child("recipes");
+        recipesFound.clear();
 
-        recipesRef.orderByChild("ingredients");
+        recipesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Recipe recipe = data.getValue(Recipe.class);
+                    recipe.setId(data.getKey());
 
+                    if (selectedIngredientsList.containsAll(recipe.getIngredients())) {
+                        recipesFound.add(recipe);
+                    }
+                }
+                System.out.println(recipesFound.toString());
+                adapterRecipe.notifyDataSetChanged();
+                System.out.println(adapterRecipe.getItemCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
-
 
     private void assignLayoutElements(View view) {
         actvIngredients = view.findViewById(R.id.actvIngredientsSearch);
