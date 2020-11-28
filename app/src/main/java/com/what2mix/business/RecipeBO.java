@@ -44,7 +44,7 @@ public class RecipeBO {
     }
 
     // Valida parâmetros para criação da receita
-    public Recipe validate(String userId, String title, String description, String createdAt, Set<String> ingredients) throws InputNameException, InputSearchException {
+    public static Recipe validate(String userId, String title, String description, String createdAt, Set<String> ingredients) throws InputNameException, InputSearchException {
 
         // FIXME Revisar mensagens
         if (userId.equals(null)) {
@@ -68,7 +68,7 @@ public class RecipeBO {
     }
 
     // Valida especificamente ingredientes da receita
-    private void validateIngredients(Set<String> ingredients) throws InputSearchException {
+    private static void validateIngredients(Set<String> ingredients) throws InputSearchException {
 
         if (ingredients.isEmpty()) {
             throw new InputSearchException("Escolha ao menos um ingrediente !");
