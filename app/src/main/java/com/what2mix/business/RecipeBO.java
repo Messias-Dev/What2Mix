@@ -16,41 +16,24 @@ public class RecipeBO {
     // Referência a persistência
     private RecipeDAO dao = new RecipeDAO();
 
-    // Registra receita via persistência
-    public void register(String userId, String title, String description, String createdAt, List<Ingredient> ingredients) throws InputSearchException, InputNameException {
 
-        // Valida parâmetros
-        validate(userId, title, description, createdAt, ingredients);
-
-        // Lista para ID de ingredientes
-        List<String> ingredientsId = new ArrayList<>();
-
-        for (Ingredient ingredient : ingredients){
-            ingredientsId.add(ingredient.getId());
-        }
-
-        // Cria o objeto
-        Recipe recipe = new Recipe(userId, title, description, createdAt, ingredientsId);
-
-        dao.writeNewRecipe(recipe);
-    }
 
     // Pega todas as receitas por ingrediente via persistência
-    public List<Recipe> getAllRecipesByIngredients(List<Ingredient> ingredients) throws InputSearchException {
-
-        validateIngredients(ingredients);
-
-        // Lista para ID de ingredientes
-        List<String> ingredientsId = new ArrayList<>();
-
-        for (Ingredient ingredient : ingredients){
-            ingredientsId.add(ingredient.getId());
-        }
-
-        List<Recipe> recipes = dao.findAllByIngredients(ingredientsId);
-
-        return recipes;
-    }
+//    public List<Recipe> getAllRecipesByIngredients(List<Ingredient> ingredients) throws InputSearchException {
+//
+//        validateIngredients(ingredients);
+//
+//        // Lista para ID de ingredientes
+//        List<String> ingredientsId = new ArrayList<>();
+//
+//        for (Ingredient ingredient : ingredients){
+//            ingredientsId.add(ingredient.getId());
+//        }
+//
+//        List<Recipe> recipes = dao.findAllByIngredients(ingredientsId);
+//
+//        return recipes;
+//    }
 
     // Pega todas as receitas por usuário via persistência
     public List<Recipe> getAllRecipesByUser(String userId) throws InputSearchException {
@@ -61,7 +44,7 @@ public class RecipeBO {
     }
 
     // Valida parâmetros para criação da receita
-    public void validate(String userId, String title, String description, String createdAt, List<Ingredient> ingredients) throws InputNameException, InputSearchException {
+    public Recipe validate(String userId, String title, String description, String createdAt, Set<String> ingredients) throws InputNameException, InputSearchException {
 
         // FIXME Revisar mensagens
         if (userId.equals(null)) {
@@ -78,10 +61,14 @@ public class RecipeBO {
         }
         validateIngredients(ingredients);
 
+        Recipe recipe = new Recipe(userId, title, description, createdAt, ingredients);
+
+        return recipe;
+
     }
 
     // Valida especificamente ingredientes da receita
-    private void validateIngredients(List<Ingredient> ingredients) throws InputSearchException {
+    private void validateIngredients(Set<String> ingredients) throws InputSearchException {
 
         if (ingredients.isEmpty()) {
             throw new InputSearchException("Escolha ao menos um ingrediente !");
