@@ -34,10 +34,10 @@ O banco de dados utilizado foi o Realtime Database. É um banco de dados NoSQL q
 
 ### Autores 
 
-* [Alexandre Karl](https://github.com/alexandrekva) - Desenvolvedor Front-End
+* [Alexandre Karl](https://github.com/alexandrekva) - Desenvolvedor
 * [Ary Sault](https://github.com/arysault) - Documentação
 * [Gabriel Veloso](https://github.com/Gabrielbveloso) - Documentação
-* [Messias Nunesmaia](https://github.com/Messias-Dev) - Desenvolvedor Back-End
+* [Messias Nunesmaia](https://github.com/Messias-Dev) - Desenvolvedor
 
 ### Licença
 Este projeto está sob a licença (MIT) - veja o arquivo [LICENSE.md](https://github.com/Messias-Dev/What2Mix/edit/master/LICENSE.md) para detalhes.
