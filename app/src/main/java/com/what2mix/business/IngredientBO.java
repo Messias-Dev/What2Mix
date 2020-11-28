@@ -11,19 +11,14 @@ import java.util.List;
 
 public class IngredientBO {
 
-    // Referência a persistência
-    private IngredientDAO dao = new IngredientDAO();
+       public static Boolean isDuplicated(List<String> ingredients, String ingredient){
+        Boolean condition = false;
 
-    // Pega todos os ingredientes via persistência
-    public List<Ingredient> getAllIngredients(){
-        List<Ingredient> ingredients = dao.findAll();
-        return ingredients;
-    }
+        if (ingredients.contains(ingredient)){
+            condition = true;
+        }
 
-    // Pega todos os nomes de ingredientes via persistência
-    public List<String> getAllIngredientsNames(){
-        List<String> ingredientsNames= dao.findAllNames();
-        return ingredientsNames;
+        return condition;
     }
 
 }

@@ -31,19 +31,13 @@ public class RecipeBO {
         if (ingredients.equals(null)) {
             throw new InsufficientDataException("Selecione ingredientes");
         }
-        validateIngredients(ingredients);
+        if (ingredients.isEmpty()) {
+            throw new InsufficientDataException("Escolha ao menos um ingrediente !");
+        }
 
         Recipe recipe = new Recipe(userId, title, description, createdAt, ingredients);
 
         return recipe;
 
-    }
-
-    // Valida especificamente ingredientes da receita
-    private static void validateIngredients(List<String> ingredients) throws InsufficientDataException {
-
-        if (ingredients.isEmpty()) {
-            throw new InsufficientDataException("Escolha ao menos um ingrediente !");
-        }
     }
 }
