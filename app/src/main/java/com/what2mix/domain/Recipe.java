@@ -13,14 +13,14 @@ public class Recipe {
     private String title;
     private String description;
     private String createdAt;
-    private Set<String> ingredients;
+    private List<String> ingredients;
 
     // Construtor geral (para Firebase)
     public Recipe() {
     }
 
     // Construtor para consulta no banco de dados
-    public Recipe(String id, String userId, String title, String description, String createdAt, Set<String> ingredients) {
+    public Recipe(String id, String userId, String title, String description, String createdAt, List<String> ingredients) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -30,7 +30,7 @@ public class Recipe {
     }
 
     // Construtor para registro no banco de dados
-    public Recipe(String userId, String title, String description, String createdAt, Set<String> ingredients) {
+    public Recipe(String userId, String title, String description, String createdAt, List<String> ingredients) {
         this.userId = userId;
         this.title = title;
         this.description = description;
@@ -79,11 +79,11 @@ public class Recipe {
         this.createdAt = createdAt;
     }
 
-    public Set<String> getIngredients() {
+    public List<String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Set<String> ingredients) {
+    public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
 
