@@ -21,19 +21,14 @@ Alcançar pessoas que eventualmente tem ingredientes estocados mas não sabem "o
 
 ### Arquitetura
 
-A arquitetura utilizada foi a Layers.
+A arquitetura é adaptada a tecnologia Firebase, que por sua vez facilita e viabiliza o Back-End deixando a maioria do código desenvolvido em pacotes de Front-End e regras de negócio.
 
-* Front-End
-  * activity
-  * fragments
-* Back-End
-  * business
-  * exception
-  * domain
-  * persistence
-* Banco de dados
-  * Real-time database
+
+
   
+### Banco de dados
+
+O banco de dados utilizado foi o Realtime Database. É um banco de dados NoSQL que funciona em tempo real, deixando a aplicação fluida.
 
 ---
 
