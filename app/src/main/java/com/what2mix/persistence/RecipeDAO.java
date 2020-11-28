@@ -94,11 +94,11 @@ public class RecipeDAO {
                     // Seta o id
                     recipe.setId(data.getKey());
                     System.out.println(recipe.getTitle());
-                    System.out.println(recipe.getIngredientsId().toString());
+                    System.out.println(recipe.getIngredients().toString());
                     System.out.println(ingredientsId);
 
                     // Verifica se a lista de ingredientes da busca contém a lista de ingredientes da receita
-                    if (ingredientsId.containsAll(recipe.getIngredientsId())) {
+                    if (ingredientsId.containsAll(recipe.getIngredients())) {
                         System.out.println("Achei");
 
                         // Adiciona na lista

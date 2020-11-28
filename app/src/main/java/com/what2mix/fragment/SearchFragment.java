@@ -41,7 +41,6 @@ public class SearchFragment extends Fragment {
     private RecyclerView rvSearchResult;
     private LinearLayout ingredientsListView;
     private List<String> ingredientsNameList = null;
-    private List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
     private List<Ingredient> ingredientsSearch = new ArrayList<>();
     private List<Recipe> recipesFound = new ArrayList<>();
 
@@ -66,32 +65,12 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        btSearchRecipes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getRecipes();
-            }
-        });
 
     }
 
-    private void getRecipes(){
-        try {
-            recipesFound = new RecipeBO().getAllRecipesByIngredients(ingredientsSearch);
-            System.out.println("Tentei");
-        } catch (InputSearchException e) {
-            e.printStackTrace();
-        }
-
-        for (Recipe recipe : recipesFound) {
-            System.out.println(recipe.getTitle());
-        }
-
-    }
 
     private void getIngredientsName() {
         ingredientsNameList = new ArrayList<>();
-        ingredientsNameList = ingredientBO.getAllIngredientsNames();
     }
 
     private void updateAutoComplete() {
@@ -141,11 +120,6 @@ public class SearchFragment extends Fragment {
     }
 
     private Ingredient verifyIngredient(String s) {
-        for (Ingredient ingredient : ingredientsList) {
-            if (ingredient.getName().equals(s)){
-                return ingredient;
-            }
-        }
 
         return null;
     }

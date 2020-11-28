@@ -20,8 +20,6 @@ import com.what2mix.fragment.UserFragment;
 
 public class UserActivity extends AppCompatActivity {
 
-    private Button bt;
-    private FirebaseAuth auth;
     private BottomNavigationView bottomNavigationView;
 
     @Override

@@ -21,6 +21,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
@@ -34,59 +35,36 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <AutoCompleteTextView
+                android:id="@+id/actvIngredientsCreate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:fontFamily="@font/roboto"
+                android:hint="Digite o ingrediente"
+                android:textColor="@color/colorText"
+                tools:text="Carregando..." />
 
-                <AutoCompleteTextView
-                    android:id="@+id/actvIngredientsCreate"
-                    android:layout_width="0dp"
+            <HorizontalScrollView
+                android:id="@+id/horziontalScrollViewCreate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ingredientsListViewCreate"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/roboto"
-                    android:hint="Ingredientes"
-                    android:textColor="@color/colorText"
-                    app:layout_constraintEnd_toStartOf="@+id/ivAddButtonCreate"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="horizontal"></LinearLayout>
 
-                <ImageView
-                    android:id="@+id/ivAddButtonCreate"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="fitCenter"
-                    android:tint="@color/colorPrimary"
-                    app:layout_constraintBottom_toBottomOf="@+id/actvIngredientsCreate"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/actvIngredientsCreate"
-                    app:srcCompat="@drawable/ic_add_box" />
-
-                <HorizontalScrollView
-                    android:id="@+id/horziontalScrollViewCreate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/actvIngredientsCreate">
-
-                    <LinearLayout
-                        android:id="@+id/ingredientsListViewCreate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"></LinearLayout>
-
-                </HorizontalScrollView>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </HorizontalScrollView>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="32dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etRecipeTitle"
@@ -107,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="top"
                     android:hint="Modo de preparo"
-                    android:minHeight="300dp" />
+                    android:minHeight="150dp" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </ScrollView>

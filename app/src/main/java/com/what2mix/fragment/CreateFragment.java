@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -12,45 +13,46 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import androidx.fragment.app.Fragment;
-
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.what2mix.R;
 import com.what2mix.business.IngredientBO;
 import com.what2mix.business.RecipeBO;
 import com.what2mix.business.UserBO;
 import com.what2mix.config.FirebaseConfig;
-import com.what2mix.domain.Ingredient;
-import com.what2mix.domain.User;
+import com.what2mix.domain.Recipe;
 import com.what2mix.exception.InputNameException;
 import com.what2mix.exception.InputSearchException;
+import com.what2mix.exception.InsufficientDataException;
+import com.what2mix.exception.UserNotFoundException;
+import com.what2mix.util.DateUtil;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class CreateFragment extends Fragment {
 
     private Button btCreate;
     private EditText etRecipeTitle, etRecipeDescription;
-    private ImageView ivAddButtonCreate;
     private IngredientBO ingredientBO = new IngredientBO();
     private RecipeBO recipeBO = new RecipeBO();
-    private UserBO userBO = new UserBO();
     private AutoCompleteTextView actvIngredients;
     private LinearLayout ingredientsListView;
-    private List<String> ingredientsNameList = null;
-    private List<Ingredient> ingredientsList = ingredientBO.getAllIngredients();
-    private List<Ingredient> ingredientsCreate = new ArrayList<>();
+
     private FirebaseAuth auth = FirebaseConfig.getFirebaseAuth();
-    private User user;
+    private String userId = null;
+    private List<String> ingredientsList = new ArrayList<>();
+    private List<String> selectedIngredientsList = new ArrayList<>();
+    private ArrayAdapter adapter;
 
 
     @Nullable
@@ -63,150 +65,148 @@ public class CreateFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         assignLayoutElements(view);
-        getUserId();
-        setAutoComplete();
+        getIngredientsName();
+
+
+        actvIngredients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                String selectedIngredient = adapter.getItem(position).toString();
+                addIngredient(selectedIngredient);
+            }
+        });
 
         btCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createRecipe();
-            }
-        });
-
-        ivAddButtonCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addView();
+                getUserIdAndCreate();
             }
         });
 
     }
 
-    private void getIngredientsName() {
-        ingredientsNameList = new ArrayList<>();
-        ingredientsNameList = ingredientBO.getAllIngredientsNames();
-    }
+    private void createRecipe() {
+        DatabaseReference recipeRef = FirebaseConfig.getFirebaseReference().child("recipes");
 
-    private void updateAutoComplete() {
-        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ingredientsNameList);
-        actvIngredients.setAdapter(adapter);
-    }
+        String date = DateUtil.getDate();
+        String title = etRecipeTitle.getText().toString();
+        String description = etRecipeDescription.getText().toString();
 
-    private void setAutoComplete() {
-        getIngredientsName();
-        updateAutoComplete();
-    }
-
-    // TODO Verificação para evitar itens duplicados
-    private void addView() {
-        String ingredientName = actvIngredients.getText().toString();
-        Ingredient ingredient = verifyIngredient(ingredientName);
-
-        if (ingredient != null) {
-            View ingredientItem = setView(ingredientName);
-            ingredientsListView.addView(ingredientItem);
-            ingredientsCreate.add(ingredient);
-            actvIngredients.setText("");
-        } else {
-            Toast.makeText(getContext(), "Ingrediente inválido!", Toast.LENGTH_LONG).show();
+        Recipe recipe = null;
+        try {
+            recipe = RecipeBO.validate(userId, title, description, date, selectedIngredientsList);
+            recipeRef.push().setValue(recipe);
+            clearAll();
+            Toast.makeText(getContext(), "Receita criada com sucesso!", Toast.LENGTH_LONG).show();
+        } catch (InsufficientDataException e) {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        } catch (UserNotFoundException e) {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
-    private void removeView(View view) {
-        ingredientsListView.removeView(view);
+    private void addIngredient(String ingredientName){
+        View ingredientItem = setIngredientView(ingredientName);
+
+        if (ingredientItem != null) {
+            selectedIngredientsList.add(ingredientName);
+            ingredientsListView.addView(ingredientItem);
+        } else {
+            Toast.makeText(getContext(), "Ingrediente inválido ou repetido", Toast.LENGTH_LONG).show();
+        }
+
+        actvIngredients.setText("");
+        for (String s : selectedIngredientsList) {
+            System.out.println(s);
+        }
     }
 
-    private View setView(final String name) {
-        View ingredientItem = getLayoutInflater().inflate(R.layout.ingredent_item, null, false);
+    private View setIngredientView(final String selectedIngredient) {
+        if (!IngredientBO.isDuplicated(selectedIngredientsList, selectedIngredient)) {
+            View ingredientItem = getLayoutInflater().inflate(R.layout.ingredent_item, null, false);
 
-        TextView ingredientName = ingredientItem.findViewById(R.id.tvIngredientName);
-        ingredientName.setText(name);
+            TextView ingredientName = ingredientItem.findViewById(R.id.tvIngredientName);
+            ingredientName.setText(selectedIngredient);
 
-        ingredientItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeView(view);
-                removeIngredientFromList(name);
-            }
-        });
+            ingredientItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    removeIngredient(view, selectedIngredient);
+                }
+            });
 
-        return ingredientItem;
-    }
-
-    private Ingredient verifyIngredient(String s) {
-        for (Ingredient ingredient : ingredientsList) {
-            if (ingredient.getName().equals(s)) {
-                return ingredient;
-            }
+            return ingredientItem;
         }
 
         return null;
     }
 
-    private void removeIngredientFromList(String s) {
-        int i = 0;
-        System.out.println(i);
+    private void removeIngredient(View view, String ingredient) {
+        ingredientsListView.removeView(view);
+        selectedIngredientsList.remove(ingredient);
+    }
 
-        for (Ingredient ingredient : ingredientsCreate) {
-            System.out.println(ingredient.getName());
-        }
+    private void updateAutoComplete () {
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ingredientsList);
+        actvIngredients.setAdapter(adapter);
+        actvIngredients.setText("");
+        actvIngredients.setEnabled(true);
+    }
 
-        for (Ingredient ingredient : ingredientsCreate) {
-            if (ingredient.getName().equals(s)) {
-                ingredientsCreate.remove(i);
-                System.out.println("Removi o ingrediente " + ingredient.getName() + ", esperado: " + s);
-                return;
+    private void getIngredientsName() {
+        DatabaseReference ingredientsRef = FirebaseConfig.getFirebaseReference().child("ingredients");
+
+        ingredientsRef.orderByChild("name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    ingredientsList.add(data.child("name").getValue().toString());
+                }
+                updateAutoComplete();
             }
-            i++;
-        }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getUserIdAndCreate() {
+        String email = auth.getCurrentUser().getEmail();
+        DatabaseReference databaseRef = FirebaseConfig.getFirebaseReference().child("users");
+
+        databaseRef.orderByChild("email").equalTo(email).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    userId = data.getKey().toString();
+                    createRecipe();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println(databaseError.getMessage());
+            }
+        });
 
     }
 
+    private void clearAll() {
+        ingredientsListView.removeAllViews();
+        selectedIngredientsList = new ArrayList<>();
+        etRecipeTitle.setText("");
+        etRecipeDescription.setText("");
+    }
 
     private void assignLayoutElements(View view) {
         btCreate = view.findViewById(R.id.btCreateRecipe);
-        ivAddButtonCreate = view.findViewById(R.id.ivAddButtonCreate);
         etRecipeDescription = view.findViewById(R.id.etRecipeDescription);
         etRecipeTitle = view.findViewById(R.id.etRecipeTitle);
         ingredientsListView = view.findViewById(R.id.ingredientsListViewCreate);
         actvIngredients = view.findViewById(R.id.actvIngredientsCreate);
     }
-
-    private void clearAllInputs() {
-        etRecipeDescription.setText("");
-        etRecipeTitle.setText("");
-        ingredientsCreate = new ArrayList<>();
-        ingredientsListView.removeAllViews();
-
-    }
-
-
-    private void createRecipe() {
-
-        Date date = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        DateFormat formatter = DateFormat.getDateInstance(DateFormat.MEDIUM);
-        String createdAt = formatter.format(calendar.getTime());
-
-        try {
-            recipeBO.register(user.getId(), etRecipeTitle.getText().toString(), etRecipeDescription.getText().toString(), createdAt, ingredientsCreate);
-            clearAllInputs();
-        } catch (InputNameException e) {
-            // TODO imprimir exceções
-            e.printStackTrace();
-        } catch (InputSearchException e) {
-            // TODO imprimir exceções
-            e.printStackTrace();
-        }
-    }
-
-    private void getUserId() {
-        String email = auth.getCurrentUser().getEmail();
-
-        user = new UserBO().getUserByEmail(email);
-    }
-
 }
