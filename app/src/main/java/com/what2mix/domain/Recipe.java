@@ -3,6 +3,7 @@ package com.what2mix.domain;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Recipe {
 
@@ -12,29 +13,29 @@ public class Recipe {
     private String title;
     private String description;
     private String createdAt;
-    private List<String> ingredientsId;
+    private Set<String> ingredients;
 
     // Construtor geral (para Firebase)
     public Recipe() {
     }
 
     // Construtor para consulta no banco de dados
-    public Recipe(String id, String userId, String title, String description, String createdAt, List<String> ingredientsId) {
+    public Recipe(String id, String userId, String title, String description, String createdAt, Set<String> ingredients) {
         this.id = id;
         this.userId = userId;
         this.title = title;
         this.description = description;
         this.createdAt = createdAt;
-        this.ingredientsId = ingredientsId;
+        this.ingredients = ingredients;
     }
 
     // Construtor para registro no banco de dados
-    public Recipe(String userId, String title, String description, String createdAt, List<String> ingredientsId) {
+    public Recipe(String userId, String title, String description, String createdAt, Set<String> ingredients) {
         this.userId = userId;
         this.title = title;
         this.description = description;
         this.createdAt = createdAt;
-        this.ingredientsId = ingredientsId;
+        this.ingredients = ingredients;
     }
 
     // Getters and Setters
@@ -78,12 +79,12 @@ public class Recipe {
         this.createdAt = createdAt;
     }
 
-    public List<String> getIngredientsId() {
-        return ingredientsId;
+    public Set<String> getIngredients() {
+        return ingredients;
     }
 
-    public void setIngredientsId(List<String> ingredientsId) {
-        this.ingredientsId = ingredientsId;
+    public void setIngredients(Set<String> ingredients) {
+        this.ingredients = ingredients;
     }
 
     // Equals and HashCode
@@ -97,12 +98,12 @@ public class Recipe {
                 getTitle().equals(recipe.getTitle()) &&
                 getDescription().equals(recipe.getDescription()) &&
                 getCreatedAt().equals(recipe.getCreatedAt()) &&
-                getIngredientsId().equals(recipe.getIngredientsId());
+                getIngredients().equals(recipe.getIngredients());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserId(), getTitle(), getDescription(), getCreatedAt(), getIngredientsId());
+        return Objects.hash(getId(), getUserId(), getTitle(), getDescription(), getCreatedAt(), getIngredients());
     }
 
     // toString
@@ -114,7 +115,7 @@ public class Recipe {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", createdAt='" + createdAt + '\'' +
-                ", ingredientsId=" + ingredientsId +
+                ", ingredientsId=" + ingredients +
                 '}';
     }
 }
