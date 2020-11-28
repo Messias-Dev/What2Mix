@@ -23,17 +23,6 @@ public class UserDAO {
     private String email = null;
     private User user = null;
 
-    // Registra usuário no banco de dados
-    public void writeNewUser(User userParameter) {
-
-        user = userParameter;
-
-        // Anula a senha do usuário
-        user.setPassword(null);
-        database.push().setValue(user);
-
-    }
-
     // Consulta usuário por email no banco de dados
     // FIXME melhorar arquitetura (deixar para final)
     public User findByEmail(final String emailParameter) {

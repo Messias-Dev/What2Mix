@@ -11,13 +11,6 @@ public class UserBO {
     // Referência a persistência
     private UserDAO dao = new UserDAO();
 
-    // Registra usuário via persistência
-    public void register(User user) {
-
-        dao.writeNewUser(user);
-
-    }
-
     // Valida parâmetros para criação do usuário
     public User validateRegister(String name, String email, String password) throws InputNameException, InputEmailException, InputPasswordException {
         if (name.equals(null) || name.trim().isEmpty()) {

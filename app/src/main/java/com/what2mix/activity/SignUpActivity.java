@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.what2mix.R;
 import com.what2mix.business.UserBO;
 import com.what2mix.config.FirebaseConfig;
@@ -34,6 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText etSignUpName, etSignUpEmail, etSignUpPassword;
     private Button btSignUp;
     private FirebaseAuth auth;
+    private DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         firebaseUser.updateProfile(userProfile);
 
-                        bo.register(user);
+                        register(user);
 
                         Toast.makeText(getApplicationContext(), "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show();
 
@@ -122,6 +125,13 @@ public class SignUpActivity extends AppCompatActivity {
         } catch (InputPasswordException e) {
             etSignUpPassword.setError(e.getMessage());
         }
+    }
+
+    private void register(User user) {
+
+        // Anula a senha do usuário
+        user.setPassword(null);
+        database.push().setValue(user);
     }
 
     public void setStatusAndActionBar(){
