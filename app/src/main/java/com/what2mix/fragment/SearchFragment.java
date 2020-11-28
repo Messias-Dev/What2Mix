@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -17,32 +18,33 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.what2mix.R;
 import com.what2mix.business.IngredientBO;
 import com.what2mix.business.RecipeBO;
-import com.what2mix.domain.Ingredient;
-import com.what2mix.domain.Recipe;
-import com.what2mix.exception.InputSearchException;
+import com.what2mix.config.FirebaseConfig;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
+
 
 public class SearchFragment extends Fragment {
 
     private IngredientBO ingredientBO = new IngredientBO();
     private RecipeBO recipeBO = new RecipeBO();
-    private ImageView btAddIngredients;
     private AutoCompleteTextView actvIngredients;
     private Button btSearchRecipes;
     private RecyclerView rvSearchResult;
     private LinearLayout ingredientsListView;
-    private List<String> ingredientsNameList = null;
-    private List<Ingredient> ingredientsSearch = new ArrayList<>();
-    private List<Recipe> recipesFound = new ArrayList<>();
+
+    private List<String> ingredientsList = new ArrayList<>();
+    private List<String> selectedIngredientsList = new ArrayList<>();
+    private ArrayAdapter adapter;
+
 
 
     @Nullable
@@ -56,97 +58,104 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         assignLayoutElements(view);
-        setAutoComplete();
+        getIngredientsName();
 
-        btAddIngredients.setOnClickListener(new View.OnClickListener() {
+        actvIngredients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
-            public void onClick(View view) {
-                addView();
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                String selectedIngredient = adapter.getItem(position).toString();
+                addIngredient(selectedIngredient);
             }
         });
 
+        btSearchRecipes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getRecipesByIngredients();
+            }
+        });
 
     }
 
+    private void addIngredient(String ingredientName){
+        View ingredientItem = setIngredientView(ingredientName);
 
-    private void getIngredientsName() {
-        ingredientsNameList = new ArrayList<>();
-    }
-
-    private void updateAutoComplete() {
-        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ingredientsNameList);
-        actvIngredients.setAdapter(adapter);
-    }
-
-    private void setAutoComplete() {
-        getIngredientsName();
-        updateAutoComplete();
-    }
-
-    // TODO Verificação para evitar itens duplicados
-    private void addView() {
-        String ingredientName = actvIngredients.getText().toString();
-        Ingredient ingredient = verifyIngredient(ingredientName);
-
-        if (ingredient != null) {
-            View ingredientItem = setView(ingredientName);
+        if (ingredientItem != null) {
+            selectedIngredientsList.add(ingredientName);
             ingredientsListView.addView(ingredientItem);
-            ingredientsSearch.add(ingredient);
-            actvIngredients.setText("");
         } else {
-            Toast.makeText(getContext(), "Ingrediente inválido!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Ingrediente inválido ou repetido", Toast.LENGTH_LONG).show();
+        }
+
+        actvIngredients.setText("");
+        for (String s : selectedIngredientsList) {
+            System.out.println(s);
         }
     }
 
-    private void removeView(View view) {
-        ingredientsListView.removeView(view);
-    }
+    private View setIngredientView(final String selectedIngredient) {
+        if (!IngredientBO.isDuplicated(selectedIngredientsList, selectedIngredient)) {
+            View ingredientItem = getLayoutInflater().inflate(R.layout.ingredent_item, null, false);
 
-    private View setView(final String name) {
-        final View ingredientItem = getLayoutInflater().inflate(R.layout.ingredent_item, null, false);
+            TextView ingredientName = ingredientItem.findViewById(R.id.tvIngredientName);
+            ingredientName.setText(selectedIngredient);
 
-        TextView ingredientName = ingredientItem.findViewById(R.id.tvIngredientName);
-        ingredientName.setText(name);
+            ingredientItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    removeIngredient(view, selectedIngredient);
+                }
+            });
 
-        ingredientItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeView(view);
-                removeIngredientFromList(name);
-            }
-        });
-
-        return ingredientItem;
-    }
-
-    private Ingredient verifyIngredient(String s) {
+            return ingredientItem;
+        }
 
         return null;
     }
 
-    private void removeIngredientFromList(String s){
-        int i = 0;
-        System.out.println(i);
+    private void removeIngredient(View view, String ingredient) {
+        ingredientsListView.removeView(view);
+        selectedIngredientsList.remove(ingredient);
+    }
 
-        for (Ingredient ingredient : ingredientsSearch) {
-            System.out.println(ingredient.getName());
-        }
+    private void updateAutoComplete () {
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, ingredientsList);
+        actvIngredients.setAdapter(adapter);
+        actvIngredients.setText("");
+        actvIngredients.setEnabled(true);
+    }
 
-        for (Ingredient ingredient : ingredientsSearch){
-            if (ingredient.getName().equals(s)){
-                ingredientsSearch.remove(i);
-                System.out.println("Removi o ingrediente " + ingredient.getName() + ", esperado: " + s);
-                return;
+    private void getIngredientsName() {
+        DatabaseReference ingredientsRef = FirebaseConfig.getFirebaseReference().child("ingredients");
+
+        ingredientsRef.orderByChild("name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    ingredientsList.add(data.child("name").getValue().toString());
+                }
+                updateAutoComplete();
             }
-            i++;
-        }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getRecipesByIngredients() {
+        DatabaseReference recipesRef = FirebaseConfig.getFirebaseReference().child("recipes");
+
+        recipesRef.orderByChild("ingredients");
 
     }
 
+
     private void assignLayoutElements(View view) {
         actvIngredients = view.findViewById(R.id.actvIngredientsSearch);
-        btAddIngredients = view.findViewById(R.id.ivAddButtonSearch);
         ingredientsListView = view.findViewById(R.id.ingredientsListViewSearch);
         btSearchRecipes = view.findViewById(R.id.btSearchRecipes);
         rvSearchResult = view.findViewById(R.id.rvSearchResults);

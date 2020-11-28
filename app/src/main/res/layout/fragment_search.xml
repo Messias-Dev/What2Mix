@@ -13,33 +13,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Ingredientes"
-        app:layout_constraintEnd_toStartOf="@+id/ivAddButtonSearch"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="@font/roboto"
+        android:hint="Digite o ingrediente"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:fontFamily="@font/roboto"
-        android:textColor="@color/colorText"/>
-
-    <ImageView
-        android:id="@+id/ivAddButtonSearch"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="32dp"
-        android:scaleType="fitCenter"
-        android:tint="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/actvIngredientsSearch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/actvIngredientsSearch"
-        app:srcCompat="@drawable/ic_add_box" />
+        android:text="Carregando..."
+        android:enabled="false"/>
 
     <HorizontalScrollView
         android:id="@+id/horziontalScrollViewSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"

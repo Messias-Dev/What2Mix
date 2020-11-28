@@ -26,9 +26,7 @@ import com.what2mix.domain.User;
 
 public class UserFragment extends Fragment {
 
-    private UserBO bo = new UserBO();
     private TextView tvUserName, tvSignOut;
-    private DatabaseReference reference;
     private FirebaseAuth auth;
 
 
@@ -70,7 +68,6 @@ public class UserFragment extends Fragment {
 
     private void setUserName() {
         String name = auth.getCurrentUser().getDisplayName();
-
         tvUserName.setText(name);
     }
 
