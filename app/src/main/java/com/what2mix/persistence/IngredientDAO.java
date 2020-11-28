@@ -23,68 +23,10 @@ import java.util.List;
 public class IngredientDAO {
 
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("ingredients");
-    private Context context = null;
-    private String name = null;
     private Ingredient ingredient = null;
-    private Boolean isDuplicated = false;
     private List<String> ingredientsName = null;
     private List<Ingredient> ingredients = null;
-    private Boolean condition = false;
 
-    // Código improvisado para registro de ingredientes no banco de dados
-    public void writeNewIngredient(Context tela, String nameParameter) {
-        name = nameParameter;
-        context = tela;
-
-//        ingredient = new Ingredient(name);
-//        database.push().setValue(ingredient);
-
-//        database.setValue(null);
-
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String nameExist = snapshot.child("name").getValue().toString();
-                        if (name.equals(nameExist)) {
-                            System.out.println("====================================");
-                            System.out.println(nameExist + "  É DUPLICADO");
-                            isDuplicated = true;
-                            System.out.println("====================================");
-
-                        }
-
-                    }
-                }
-                if (!isDuplicated) {
-                    ingredient = new Ingredient(name);
-                    database.push().setValue(ingredient).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(context, "Sucesso !", Toast.LENGTH_LONG).show();
-                        }
-                    })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(context, "Nome já existe", Toast.LENGTH_LONG).show();
-                                }
-                            });
-
-                } else {
-                    Toast.makeText(context, "Nome já existe", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-    }
 
     // Consulta de todos os nomes de ingredientes no banco de dados
     public List<String> findAllNames() {
