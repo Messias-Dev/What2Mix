@@ -13,6 +13,7 @@ public class Recipe {
     private String title;
     private String description;
     private String createdAt;
+    private String createdBy;
     private Integer countLike;
     private List<String> ingredients;
     private List<String> usersLike;
@@ -22,15 +23,17 @@ public class Recipe {
     }
 
     // Construtor para consulta no banco de dados
-    public Recipe(String id, String userId, String title, String description, String createdAt, List<String> ingredients, List<String> usersLike, Integer countLike) {
+
+    public Recipe(String id, String userId, String title, String description, String createdAt, String createdBy, Integer countLike, List<String> ingredients, List<String> usersLike) {
         this.id = id;
         this.userId = userId;
         this.title = title;
         this.description = description;
         this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.countLike = countLike;
         this.ingredients = ingredients;
         this.usersLike = usersLike;
-        this.countLike = countLike;
     }
 
     // Construtor para registro no banco de dados
@@ -99,6 +102,14 @@ public class Recipe {
         this.usersLike = usersLike;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
     public Integer getCountLike() {
         return countLike;
     }
@@ -119,6 +130,7 @@ public class Recipe {
                 Objects.equals(getTitle(), recipe.getTitle()) &&
                 Objects.equals(getDescription(), recipe.getDescription()) &&
                 Objects.equals(getCreatedAt(), recipe.getCreatedAt()) &&
+                Objects.equals(getCreatedBy(), recipe.getCreatedBy()) &&
                 Objects.equals(getCountLike(), recipe.getCountLike()) &&
                 Objects.equals(getIngredients(), recipe.getIngredients()) &&
                 Objects.equals(getUsersLike(), recipe.getUsersLike());
@@ -126,11 +138,10 @@ public class Recipe {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserId(), getTitle(), getDescription(), getCreatedAt(), getCountLike(), getIngredients(), getUsersLike());
+        return Objects.hash(getId(), getUserId(), getTitle(), getDescription(), getCreatedAt(), getCreatedBy(), getCountLike(), getIngredients(), getUsersLike());
     }
 
     // toString
-
 
     @Override
     public String toString() {
@@ -140,6 +151,7 @@ public class Recipe {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", createdAt='" + createdAt + '\'' +
+                ", createdBy=" + createdBy +
                 ", countLike=" + countLike +
                 ", ingredients=" + ingredients +
                 ", usersLike=" + usersLike +
