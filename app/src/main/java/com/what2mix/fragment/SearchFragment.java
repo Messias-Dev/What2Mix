@@ -179,9 +179,11 @@ public class SearchFragment extends Fragment {
                         recipesFound.add(recipe);
                     }
                 }
-                System.out.println(recipesFound.toString());
                 adapterRecipe.notifyDataSetChanged();
-                System.out.println(adapterRecipe.getItemCount());
+
+                if (recipesFound.isEmpty()) {
+                    Toast.makeText(getContext(), "Nenhuma receita foi encontrada!", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
