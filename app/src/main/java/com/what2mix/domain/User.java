@@ -1,6 +1,5 @@
 package com.what2mix.domain;
 
-import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -10,25 +9,9 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private List<Recipe> recipes;
 
     // Construtor geral (para Firebase)
     public User() {
-    }
-
-    // Construtor para consulta no banco de dados
-    public User(String id, String name, String email, List<Recipe> recipes) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.recipes = recipes;
-    }
-
-    // Construtor para registro no banco de dados
-    public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
     }
 
     // Construtor para login
@@ -70,14 +53,6 @@ public class User {
         this.password = password;
     }
 
-    public List<Recipe> getRecipes() {
-        return recipes;
-    }
-
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
-    }
-
     // Equals and HashCode
     @Override
     public boolean equals(Object o) {
@@ -87,13 +62,12 @@ public class User {
         return Objects.equals(getId(), user.getId()) &&
                 Objects.equals(getName(), user.getName()) &&
                 Objects.equals(getEmail(), user.getEmail()) &&
-                Objects.equals(getPassword(), user.getPassword()) &&
-                Objects.equals(getRecipes(), user.getRecipes());
+                Objects.equals(getPassword(), user.getPassword());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getEmail(), getPassword(), getRecipes());
+        return Objects.hash(getId(), getName(), getEmail(), getPassword());
     }
 
     // toString
@@ -104,7 +78,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", recipes=" + recipes +
+                ", recipes=" +
                 '}';
     }
 }
