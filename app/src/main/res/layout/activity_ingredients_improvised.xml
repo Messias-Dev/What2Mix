@@ -29,5 +29,5 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:onClick="addIngredients"
-        android:text="Button" />
+        android:text="Adicionar" />
 </LinearLayout>
