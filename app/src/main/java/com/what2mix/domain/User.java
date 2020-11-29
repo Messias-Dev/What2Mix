@@ -14,6 +14,13 @@ public class User {
     public User() {
     }
 
+    // Construtor para registro no banco de dados
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
     // Construtor para login
     public User(String email, String password) {
         this.email = email;
