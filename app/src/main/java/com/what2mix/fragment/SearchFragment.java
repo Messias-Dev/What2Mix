@@ -124,7 +124,7 @@ public class SearchFragment extends Fragment {
 
     private void setRecyclerViewer() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        adapterRecipe = new AdapterRecipe(recipesFound);
+        adapterRecipe = new AdapterRecipe(recipesFound, getContext());
 
         rvSearchResult.setLayoutManager(layoutManager);
         rvSearchResult.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
