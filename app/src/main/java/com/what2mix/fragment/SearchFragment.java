@@ -176,6 +176,11 @@ public class SearchFragment extends Fragment {
                     recipe.setId(data.getKey());
 
                     if (selectedIngredientsList.containsAll(recipe.getIngredients())) {
+                        for (Recipe r : recipesFound) {
+                            if (r.getId().equals(recipe.getId())){
+                                recipesFound.remove(r);
+                            }
+                        }
                         recipesFound.add(recipe);
                     }
                 }

@@ -2,6 +2,7 @@ package com.what2mix.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -17,7 +18,7 @@ public class Recipe implements Serializable {
     private String createdBy;
     private Integer countLike = 0;
     private List<String> ingredients;
-    private List<String> usersLike;
+    private List<String> usersLike = new ArrayList<>();
 
     // Construtor geral (para Firebase)
     public Recipe() {
@@ -45,6 +46,7 @@ public class Recipe implements Serializable {
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.ingredients = ingredients;
+        this.usersLike.add("");
     }
 
     // Getters and Setters

@@ -15,13 +15,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.what2mix.R;
 import com.what2mix.business.RecipeBO;
 import com.what2mix.config.FirebaseConfig;
 import com.what2mix.domain.Recipe;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RecipeActivity extends AppCompatActivity {
 
@@ -32,7 +35,7 @@ public class RecipeActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseConfig.getFirebaseAuth();
     private String currentUserId;
     private boolean userLiked = false;
-    private boolean userOwner = false;
+    private DatabaseReference recipesRef = FirebaseConfig.getFirebaseReference().child("recipes");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,13 @@ public class RecipeActivity extends AppCompatActivity {
 
         getCurrentUserId();
         setRecipeContent(recipe);
-        userLiked();
+
+        ivFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                favorite();
+            }
+        });
 
     }
 
@@ -89,29 +98,32 @@ public class RecipeActivity extends AppCompatActivity {
         tvRecipeDate.setText(date);
     }
 
-    private void favorite(Boolean userLiked) {
+    private void favorite() {
         if (userLiked) {
             recipe.getUsersLike().remove(currentUserId);
-
-        }
-    }
-
-    private Boolean userLiked() {
-        if (!RecipeBO.userLiked(recipe.getUsersLike(), currentUserId)) {
+            recipe.setCountLike(recipe.getCountLike() - 1);
+            userLiked = false;
             ivFavorite.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
-            return false;
-        } else{
+        } else {
+            recipe.getUsersLike().add(currentUserId);
+            recipe.setCountLike(recipe.getCountLike() + 1);
+            userLiked = true;
             ivFavorite.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
-            return true;
+        }
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put(recipe.getId() + "/usersLike/", recipe.getUsersLike());
+        recipesRef.updateChildren(childUpdates);
+
+    }
+
+    private void setFavorite() {
+        if (userLiked) {
+            ivFavorite.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+        } else {
+            ivFavorite.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
         }
     }
 
-    private boolean userIsOwner(String userId) {
-        if (userId.equals(currentUserId)) {
-            return true;
-        }
-        return false;
-    }
 
     private void getCurrentUserId() {
         String email = auth.getCurrentUser().getEmail();
@@ -121,10 +133,10 @@ public class RecipeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    currentUserId = data.getKey().toString();
+                    currentUserId = data.getKey();
 
-                    userLiked = userLiked();
-                    userOwner = userIsOwner(recipe.getUserId());
+                    userLiked = RecipeBO.userLiked(recipe.getUsersLike(), currentUserId);
+                    setFavorite();
                 }
             }
 
