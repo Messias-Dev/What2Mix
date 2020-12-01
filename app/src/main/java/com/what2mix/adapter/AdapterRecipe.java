@@ -50,6 +50,7 @@ public class AdapterRecipe extends RecyclerView.Adapter<AdapterRecipe.MyViewHold
             public void onClick(View view) {
                 Intent intent = new Intent(context, RecipeActivity.class);
                 Recipe recipe = recipes.get(position);
+                intent.putExtra("recipe", recipe);
                 context.startActivity(intent);
             }
         });

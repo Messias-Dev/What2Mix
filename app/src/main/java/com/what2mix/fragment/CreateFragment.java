@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,19 +23,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.what2mix.R;
 import com.what2mix.business.IngredientBO;
 import com.what2mix.business.RecipeBO;
-import com.what2mix.business.UserBO;
 import com.what2mix.config.FirebaseConfig;
 import com.what2mix.domain.Recipe;
-import com.what2mix.exception.InputNameException;
-import com.what2mix.exception.InputSearchException;
 import com.what2mix.exception.InsufficientDataException;
 import com.what2mix.exception.UserNotFoundException;
 import com.what2mix.util.DateUtil;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 
 public class CreateFragment extends Fragment {
@@ -44,10 +38,8 @@ public class CreateFragment extends Fragment {
     private Button btCreate;
     private EditText etRecipeTitle, etRecipeDescription;
     private IngredientBO ingredientBO = new IngredientBO();
-    private RecipeBO recipeBO = new RecipeBO();
     private AutoCompleteTextView actvIngredients;
     private LinearLayout ingredientsListView;
-
     private FirebaseAuth auth = FirebaseConfig.getFirebaseAuth();
     private String userId = null;
     private List<String> ingredientsList = new ArrayList<>();
@@ -81,7 +73,7 @@ public class CreateFragment extends Fragment {
         btCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getUserIdAndCreate();
+                getUserAndCreate();
             }
         });
 
@@ -93,10 +85,11 @@ public class CreateFragment extends Fragment {
         String date = DateUtil.getDate();
         String title = etRecipeTitle.getText().toString();
         String description = etRecipeDescription.getText().toString();
+        String name = auth.getCurrentUser().getDisplayName();
 
         Recipe recipe = null;
         try {
-            recipe = RecipeBO.validate(userId, title, description, date, selectedIngredientsList);
+            recipe = RecipeBO.validate(userId, title, description, date, name, selectedIngredientsList);
             recipeRef.push().setValue(recipe);
             clearAll();
             Toast.makeText(getContext(), "Receita criada com sucesso!", Toast.LENGTH_LONG).show();
@@ -174,7 +167,7 @@ public class CreateFragment extends Fragment {
         });
     }
 
-    private void getUserIdAndCreate() {
+    private void getUserAndCreate() {
         String email = auth.getCurrentUser().getEmail();
         DatabaseReference databaseRef = FirebaseConfig.getFirebaseReference().child("users");
 

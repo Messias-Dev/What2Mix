@@ -16,7 +16,7 @@ import java.util.Set;
 public class RecipeBO {
 
     // Valida parâmetros para criação da receita
-    public static Recipe validate(String userId, String title, String description, String createdAt, List<String> ingredients) throws InsufficientDataException, UserNotFoundException {
+    public static Recipe validate(String userId, String title, String description, String createdAt, String createdBy, List<String> ingredients) throws InsufficientDataException, UserNotFoundException {
 
         // FIXME Revisar mensagens
         if (userId.equals(null)) {
@@ -35,7 +35,7 @@ public class RecipeBO {
             throw new InsufficientDataException("Escolha ao menos um ingrediente !");
         }
 
-        Recipe recipe = new Recipe(userId, title, description, createdAt, ingredients);
+        Recipe recipe = new Recipe(userId, title, description, createdAt, createdBy, ingredients);
 
         return recipe;
 

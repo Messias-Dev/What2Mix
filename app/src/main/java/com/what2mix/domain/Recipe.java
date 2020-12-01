@@ -1,11 +1,12 @@
 package com.what2mix.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public class Recipe {
+public class Recipe implements Serializable {
 
     // Atributos
     private String id;
@@ -14,7 +15,7 @@ public class Recipe {
     private String description;
     private String createdAt;
     private String createdBy;
-    private Integer countLike;
+    private Integer countLike = 0;
     private List<String> ingredients;
     private List<String> usersLike;
 
@@ -37,11 +38,12 @@ public class Recipe {
     }
 
     // Construtor para registro no banco de dados
-    public Recipe(String userId, String title, String description, String createdAt, List<String> ingredients) {
+    public Recipe(String userId, String title, String description, String createdAt, String createdBy, List<String> ingredients) {
         this.userId = userId;
         this.title = title;
         this.description = description;
         this.createdAt = createdAt;
+        this.createdBy = createdBy;
         this.ingredients = ingredients;
     }
 
