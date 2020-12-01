@@ -41,7 +41,7 @@ public class RecipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
-
+        setStatusAndActionBar();
         assignLayoutElements();
 
         recipe = (Recipe) getIntent().getSerializableExtra("recipe");
@@ -110,8 +110,10 @@ public class RecipeActivity extends AppCompatActivity {
             userLiked = true;
             ivFavorite.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
         }
+
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put(recipe.getId() + "/usersLike/", recipe.getUsersLike());
+        childUpdates.put(recipe.getId() + "/countLike/", recipe.getCountLike());
         recipesRef.updateChildren(childUpdates);
 
     }
@@ -146,6 +148,12 @@ public class RecipeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void setStatusAndActionBar(){
+        getSupportActionBar().hide();
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorBackground));
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 
 }

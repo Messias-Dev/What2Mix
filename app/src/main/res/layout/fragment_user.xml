@@ -26,6 +26,7 @@
             android:layout_weight="0"
             android:background="@drawable/avatar_background"
             android:scaleType="centerInside"
+            android:tint="@color/colorBackground"
             app:srcCompat="@drawable/ic_person" />
 
         <TextView
@@ -42,48 +43,44 @@
             android:layout_marginEnd="16dp"/>
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tvSignOut"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/roboto"
+        android:gravity="end"
+        android:padding="8dp"
+        android:text="Sair"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-        <TextView
-            android:id="@+id/tvMyRecipes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
-            android:text="Minhas receitas"
-            android:textColor="@color/colorText"
-            android:textSize="18sp"
-            android:padding="8dp"/>
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        android:fontFamily="@font/roboto"
+        android:text="Copyright © 2020 What2Mix"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/tvChangePassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
-            android:text="Mudar senha"
-            android:textColor="@color/colorText"
-            android:textSize="18sp"
-            android:padding="8dp"/>
-
-        <TextView
-            android:id="@+id/tvSignOut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
-            android:text="Sair"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:padding="8dp"/>
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:srcCompat="@drawable/ic_logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

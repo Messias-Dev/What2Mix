@@ -2,20 +2,15 @@ package com.what2mix.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.what2mix.R;
 import com.what2mix.activity.RecipeActivity;
 import com.what2mix.domain.Recipe;
-import com.what2mix.fragment.SearchFragment;
-
 import java.util.List;
 
 public class AdapterRecipe extends RecyclerView.Adapter<AdapterRecipe.MyViewHolder> {
@@ -44,6 +39,7 @@ public class AdapterRecipe extends RecyclerView.Adapter<AdapterRecipe.MyViewHold
 
         holder.title.setText(recipe.getTitle());
         holder.date.setText(recipe.getCreatedAt());
+        holder.likes.setText(recipe.getCountLike().toString());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,12 +63,14 @@ public class AdapterRecipe extends RecyclerView.Adapter<AdapterRecipe.MyViewHold
 
         TextView title;
         TextView date;
+        TextView likes;
 
         public MyViewHolder (View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.tvRecipeAdapterTitle);
             date = itemView.findViewById(R.id.tvRecipeAdapterDate);
+            likes = itemView.findViewById(R.id.tvLikeCount);
         }
     }
 }

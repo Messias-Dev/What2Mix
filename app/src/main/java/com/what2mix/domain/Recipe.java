@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public class Recipe implements Serializable {
+public class Recipe implements Serializable, Comparable<Recipe> {
 
     // Atributos
     private String id;
@@ -160,5 +160,10 @@ public class Recipe implements Serializable {
                 ", ingredients=" + ingredients +
                 ", usersLike=" + usersLike +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Recipe recipe) {
+        return(recipe.countLike - this.countLike);
     }
 }

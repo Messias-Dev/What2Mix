@@ -35,6 +35,8 @@ import com.what2mix.domain.Recipe;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -46,6 +48,7 @@ public class SearchFragment extends Fragment {
     private Button btSearchRecipes;
     private RecyclerView rvSearchResult;
     private LinearLayout ingredientsListView;
+    private TextView tvOrderResults;
 
     private List<String> ingredientsList = new ArrayList<>();
     private List<String> selectedIngredientsList = new ArrayList<>();
@@ -87,6 +90,20 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        tvOrderResults.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                orderResults();
+            }
+        });
+
+    }
+
+    private void orderResults() {
+        System.out.println(recipesFound.toString());
+        Collections.sort(recipesFound);
+        System.out.println(recipesFound.toString());
+        adapterRecipe.notifyDataSetChanged();
     }
 
     private void addIngredient(String ingredientName){
@@ -166,21 +183,16 @@ public class SearchFragment extends Fragment {
 
     private void getRecipesByIngredients() {
         DatabaseReference recipesRef = FirebaseConfig.getFirebaseReference().child("recipes");
-        recipesFound.clear();
 
         recipesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                recipesFound.clear();
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     Recipe recipe = data.getValue(Recipe.class);
                     recipe.setId(data.getKey());
 
                     if (selectedIngredientsList.containsAll(recipe.getIngredients())) {
-                        for (Recipe r : recipesFound) {
-                            if (r.getId().equals(recipe.getId())){
-                                recipesFound.remove(r);
-                            }
-                        }
                         recipesFound.add(recipe);
                     }
                 }
@@ -203,6 +215,7 @@ public class SearchFragment extends Fragment {
         ingredientsListView = view.findViewById(R.id.ingredientsListViewSearch);
         btSearchRecipes = view.findViewById(R.id.btSearchRecipes);
         rvSearchResult = view.findViewById(R.id.rvSearchResults);
+        tvOrderResults = view.findViewById(R.id.tvOrderResults);
     }
 
 

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.RecipeActivity">
+    tools:context=".activity.RecipeActivity"
+    android:background="@color/colorBackground">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -32,13 +33,13 @@
                 android:gravity="center"
                 android:text="Título"
                 android:textColor="@color/colorText"
-                android:textSize="30sp"
+                android:textSize="32sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="96dp"
+                android:layout_marginTop="64dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -58,7 +59,7 @@
                     android:fontFamily="@font/roboto"
                     android:gravity="end"
                     android:text="Data"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <HorizontalScrollView
@@ -76,7 +77,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="48dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -86,7 +87,7 @@
                     android:fontFamily="@font/roboto"
                     android:text="Modo de preparo"
                     android:textColor="@color/colorText"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tvRecipeDescription"
@@ -95,7 +96,7 @@
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/roboto"
                     android:text="Modo de preparo..."
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -104,8 +105,8 @@
 
     <ImageView
         android:id="@+id/ivFavorite"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
