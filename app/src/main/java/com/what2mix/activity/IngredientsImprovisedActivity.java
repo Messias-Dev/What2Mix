@@ -18,7 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.what2mix.R;
 import com.what2mix.domain.Ingredient;
-import com.what2mix.persistence.IngredientDAO;
 
 // Classe improvisada para implementação de ingredientes no banco de dados
 public class IngredientsImprovisedActivity extends AppCompatActivity {

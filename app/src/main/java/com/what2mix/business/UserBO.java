@@ -4,12 +4,9 @@ import com.what2mix.domain.User;
 import com.what2mix.exception.InputEmailException;
 import com.what2mix.exception.InputNameException;
 import com.what2mix.exception.InputPasswordException;
-import com.what2mix.persistence.UserDAO;
 
 public class UserBO {
 
-    // Referência a persistência
-    private UserDAO dao = new UserDAO();
 
     // Valida parâmetros para criação do usuário
     public User validateRegister(String name, String email, String password) throws InputNameException, InputEmailException, InputPasswordException {
@@ -67,12 +64,6 @@ public class UserBO {
         return user;
     }
 
-    // Pega usuário por e-mail via persistência
-    public User getUserByEmail(String email){
 
-        User user = dao.findByEmail(email);
-
-        return user;
-    }
 
 }
