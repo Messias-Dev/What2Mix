@@ -1,5 +1,8 @@
 package com.what2mix.business;
 
+import androidx.core.content.ContextCompat;
+
+import com.what2mix.R;
 import com.what2mix.domain.Ingredient;
 import com.what2mix.domain.Recipe;
 import com.what2mix.exception.InputNameException;
@@ -39,5 +42,14 @@ public class RecipeBO {
 
         return recipe;
 
+    }
+
+    public static Boolean userLiked(List<String> usersLiked, String userId) {
+        if (usersLiked == null) {
+            return false;
+        } else if (usersLiked.contains(userId)) {
+            return true;
+        }
+        return false;
     }
 }

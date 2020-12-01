@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.what2mix.R;
+import com.what2mix.business.RecipeBO;
 import com.what2mix.config.FirebaseConfig;
 import com.what2mix.domain.Recipe;
 
@@ -95,15 +96,14 @@ public class RecipeActivity extends AppCompatActivity {
         }
     }
 
-    private boolean userLiked() {
-        if (recipe.getUsersLike() == null) {
+    private Boolean userLiked() {
+        if (!RecipeBO.userLiked(recipe.getUsersLike(), currentUserId)) {
             ivFavorite.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey));
             return false;
-        } else if (recipe.getUsersLike().contains(currentUserId)) {
+        } else{
             ivFavorite.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
             return true;
         }
-        return false;
     }
 
     private boolean userIsOwner(String userId) {
