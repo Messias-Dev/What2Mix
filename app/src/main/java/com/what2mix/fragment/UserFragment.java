@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,16 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 
 import com.what2mix.R;
-import com.what2mix.activity.IngredientsImprovisedActivity;
 import com.what2mix.activity.LoginActivity;
-import com.what2mix.activity.SignUpActivity;
-import com.what2mix.business.UserBO;
-import com.what2mix.config.FirebaseConfig;
-import com.what2mix.domain.User;
 
 public class UserFragment extends Fragment {
 

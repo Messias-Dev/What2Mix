@@ -112,19 +112,4 @@
         app:layout_constraintStart_toStartOf="@+id/btLogin"
         app:layout_constraintTop_toBottomOf="@+id/btLogin" />
 
-    <Button
-        android:id="@+id/btnGoToIngredients"
-        android:layout_width="154dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="135dp"
-        android:layout_marginEnd="135dp"
-
-        android:layout_marginBottom="20dp"
-        android:onClick="goToAddIngredient"
-        android:text="Ingredientes"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

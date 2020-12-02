@@ -124,11 +124,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void goToAddIngredient(View view) {
-        Intent intent = new Intent(getApplicationContext(), IngredientsImprovisedActivity.class);
-        startActivity(intent);
-    }
-
     public void setStatusAndActionBar(){
         getSupportActionBar().hide();
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorBackground));
